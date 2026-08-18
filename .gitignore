@@ -1,0 +1,10 @@
+# OS and editor files
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
+
+# Node/npm (if initialized in future)
+node_modules/
+package-lock.json

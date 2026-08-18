@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en" class="light scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Role Workspaces & Dashboards - Campus Connect</title>
+
+  <!-- Tailwind CSS CDN & Config -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+
+      theme: {
+        extend: {
+          colors: {
+            brand: { blue: '#2563eb', cyan: '#06b6d4', emerald: '#059669', violet: '#7c3aed', amber: '#d97706' }
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Plus Jakarta Sans', 'sans-serif'] },
+          boxShadow: { soft: '0 8px 30px rgba(0,0,0,0.06)', softDark: '0 8px 30px rgba(0,0,0,0.3)', glow: '0 0 25px rgba(37,99,235,0.2)' }
+        }
+      }
+    }
+  </script>
+
+  <!-- Fonts & Icons -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- External Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/roles.css">
+</head>
+
+<body
+  class="bg-[#f8fafc] dark:bg-[#070709] text-slate-900 dark:text-zinc-100 min-h-screen flex flex-col transition-colors duration-500 selection:bg-blue-600 selection:text-white relative">
+
+  <!-- Background ambient blur decoration -->
+  <!-- Background ambient blur decoration -->
+  <div id="bc-bg" class="fixed inset-0 z-0 pointer-events-none">
+    <div
+      class="absolute inset-0 bg-[url('bg.png')] bg-cover bg-center bg-no-repeat bg-fixed opacity-30 dark:opacity-20">
+    </div>
+    <div
+      class="absolute -top-32 -left-32 w-[700px] h-[700px] bg-blue-600/15 dark:bg-blue-600/15 blur-[140px] rounded-full animate-glow">
+    </div>
+    <div
+      class="absolute -bottom-32 -right-32 w-[700px] h-[700px] bg-violet-600/15 dark:bg-violet-600/15 blur-[140px] rounded-full animate-glow"
+      style="animation-delay: 2s;"></div>
+  </div>
+
+  <!-- Header Navigation -->
+  <!-- Header Navigation -->
+  <header id="main-header"
+    class="sticky top-0 z-40 bg-white/85 dark:bg-zinc-950/80 backdrop-blur-2xl border-b border-slate-200/80 dark:border-zinc-800/80 transition-colors">
+    <div class="max-w-[1440px] mx-auto px-4 lg:px-8 h-[72px] flex items-center justify-between">
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-3 cursor-pointer group">
+        <img src="assets/logo/logo.png" alt="Campus Connect Logo"
+          class="h-10 w-10 rounded-xl object-contain shadow-lg group-hover:rotate-12 group-hover:scale-110 transition-all duration-300 animate-wiggle">
+        <div>
+          <div class="flex items-center gap-2">
+            <span
+              class="font-display font-extrabold text-[20px] tracking-tight text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">Campus
+              Connect</span>
+            <span
+              class="text-[11px] px-2 py-0.5 rounded-full bg-blue-600 text-white font-bold tracking-widest shadow-sm animate-pulse">FLOW</span>
+          </div>
+          <p class="text-[12px] text-slate-500 dark:text-zinc-400 font-medium -mt-0.5">Automated Multi-Role Resolution
+            Portal</p>
+        </div>
+      </a>
+
+      <!-- Landing Navigation Links -->
+      <nav class="hidden md:flex items-center gap-2 text-sm font-semibold text-slate-600 dark:text-zinc-300">
+        <a href="index.html" id="nav-item-home"
+          class="nav-route-btn px-4 py-2 rounded-xl text-slate-600 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-zinc-800/60 transition-all font-semibold">Home</a>
+        <a href="portal.html" id="nav-item-portal"
+          class="nav-route-btn px-4 py-2 rounded-xl text-slate-600 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-zinc-800/60 transition-all font-semibold">4-Step
+          Portal</a>
+        <a href="roles.html" id="nav-item-roles"
+          class="nav-route-btn px-4 py-2 rounded-xl text-slate-600 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-zinc-800/60 transition-all font-semibold">Role
+          Portals</a>
+        <a href="feed.html" id="nav-item-feed"
+          class="nav-route-btn px-4 py-2 rounded-xl text-slate-600 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-zinc-800/60 transition-all font-semibold">Public
+          Feed</a>
+      </nav>
+
+      <!-- Header Right Action Group -->
+      <div class="flex items-center gap-3">
+        <button onclick="toggleTheme()" aria-label="Toggle Dark Mode"
+          class="h-10 w-10 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 flex items-center justify-center hover:scale-110 hover:rotate-45 transition-all text-slate-700 dark:text-zinc-300 shadow-sm">
+          <i id="themeIcon" class="fa-solid fa-moon"></i>
+        </button>
+
+        <!-- Live Notification Icon -->
+        <div id="notifWrap" class="relative hidden">
+          <button onclick="toggleNotif()" aria-label="System Notifications"
+            class="h-10 w-10 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 flex items-center justify-center relative text-slate-700 dark:text-zinc-300 shadow-sm hover:scale-105 transition">
+            <i class="fa-solid fa-bell"></i>
+            <span id="notifDot"
+              class="hidden absolute top-2 right-2 h-2.5 w-2.5 bg-red-500 rounded-full animate-ping"></span>
+          </button>
+          <div id="notifDrop"
+            class="hidden absolute right-0 mt-3 w-[360px] sm:w-[400px] bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl shadow-2xl overflow-hidden z-50">
+            <div
+              class="p-4 border-b border-slate-100 dark:border-zinc-800 flex justify-between items-center bg-slate-50/50 dark:bg-zinc-800/50">
+              <b class="font-display text-sm">System Notifications</b>
+              <button onclick="markAllRead()"
+                class="text-xs text-blue-600 dark:text-blue-400 font-semibold hover:underline">Mark all read</button>
+            </div>
+            <div id="notifList" class="max-h-[360px] overflow-y-auto"></div>
+          </div>
+        </div>
+
+        <!-- User Profile Chip or Portal Sign In Button -->
+        <div id="navRightAuthSlot">
+          <a href="login.html" id="navLoginBtn"
+            class="btn-animate px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md flex items-center gap-2">
+            <i class="fa-solid fa-right-to-bracket"></i> Portal Login
+          </a>
+        </div>
+
+        <div id="userChip" class="hidden items-center gap-3">
+          <!-- Live Countdown Timer -->
+          <div id="sessionTimerBadge"
+            class="hidden items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/10 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400 font-mono text-sm font-bold transition">
+            <i class="fa-solid fa-stopwatch animate-pulse"></i>
+            <span id="sessionCountdown">15:00</span>
+          </div>
+
+          <div class="text-right leading-tight hidden sm:block">
+            <div id="chipName" class="text-base font-bold text-slate-800 dark:text-zinc-200"></div>
+            <div id="chipRole" class="text-xs text-slate-500 dark:text-zinc-400"></div>
+          </div>
+          <div id="chipAvatar"
+            class="h-10 w-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-base overflow-hidden bg-cover bg-center shadow-md hover:scale-105 transition">
+          </div>
+
+          <a href="roles.html" title="Go to Dashboard"
+            class="btn-animate px-3.5 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-black font-bold text-xs hidden md:flex items-center gap-1.5">
+            <i class="fa-solid fa-gauge-high"></i> Dashboard
+          </a>
+          <button onclick="openProfileModal()" title="Profile Settings"
+            class="h-10 w-10 rounded-xl bg-slate-100 dark:bg-zinc-800 flex items-center justify-center hover:text-blue-600 hover:scale-110 transition text-slate-600 dark:text-zinc-300"><i
+              class="fa-solid fa-user-gear text-sm"></i></button>
+          <button onclick="logout(false)" title="Logout"
+            class="h-10 w-10 rounded-xl bg-slate-100 dark:bg-zinc-800 flex items-center justify-center hover:text-red-500 hover:scale-110 transition text-slate-600 dark:text-zinc-300"><i
+              class="fa-solid fa-right-from-bracket text-sm"></i></button>
+        </div>
+
+        <!-- Mobile Hamburger Button -->
+        <button onclick="toggleMobileMenu()" aria-label="Toggle Navigation Menu"
+          class="md:hidden h-10 w-10 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 flex items-center justify-center text-slate-700 dark:text-zinc-300">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobileMenuDrawer"
+      class="hidden md:hidden border-t border-slate-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-xl px-4 py-4 space-y-2">
+      <a href="index.html" id="mob-nav-home"
+        class="mobile-nav-btn block px-4 py-2.5 rounded-xl text-slate-700 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800/60 font-semibold text-sm">Home</a>
+      <a href="portal.html" id="mob-nav-portal"
+        class="mobile-nav-btn block px-4 py-2.5 rounded-xl text-slate-700 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800/60 font-semibold text-sm">4-Step
+        Portal</a>
+      <a href="roles.html" id="mob-nav-roles"
+        class="mobile-nav-btn block px-4 py-2.5 rounded-xl text-slate-700 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800/60 font-semibold text-sm">Role
+        Portals</a>
+      <a href="feed.html" id="mob-nav-feed"
+        class="mobile-nav-btn block px-4 py-2.5 rounded-xl text-slate-700 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800/60 font-semibold text-sm">Public
+        Feed</a>
+      <a href="login.html" id="mob-nav-login"
+        class="mobile-nav-btn block px-4 py-2.5 rounded-xl text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/40 font-bold text-sm">Portal
+        Login</a>
+    </div>
+  </header>
+
+  <!-- Toast Message Container -->
+  <div id="toastBox" class="fixed top-24 right-6 z-[100] flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-[1440px] w-full mx-auto px-4 lg:px-8 py-6 lg:py-8 relative z-10">
+    <section id="view-roles" class="space-y-12 py-6 page-view">
+      <div id="section-portals" class="space-y-8 pt-8">
+        <div class="text-center max-w-3xl mx-auto space-y-3 reveal-on-scroll">
+          <h2 class="font-display text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white">Multi-Role
+            Specialized Workspaces</h2>
+          <p class="text-base text-slate-600 dark:text-zinc-400 font-medium">Select your designated campus role to sign
+            into your customized portal environment.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Student Card -->
+          <div
+            class="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-[28px] p-7 shadow-sm flex flex-col justify-between card-hover group reveal-on-scroll delay-100">
+            <div class="space-y-5">
+              <div
+                class="h-14 w-14 rounded-2xl bg-blue-600/10 text-blue-600 flex items-center justify-center text-2xl font-bold group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                <i class="fa-solid fa-user-graduate"></i>
+              </div>
+              <div>
+                <h3
+                  class="font-display font-bold text-2xl text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
+                  Student Portal</h3>
+                <p class="text-sm text-slate-500 dark:text-zinc-400 mt-2 leading-relaxed">File complaints with
+                  photo/video evidence, track resolution timeline, and receive safety alerts.</p>
+              </div>
+              <ul
+                class="text-xs sm:text-sm text-slate-600 dark:text-zinc-300 space-y-2.5 pt-3 border-t border-slate-100 dark:border-zinc-800">
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-600"></i> AI Hazard
+                  Auto-Priority Scanner</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-600"></i> Upload Fault Video &
+                  Images</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-600"></i> View Proof of
+                  Completion</li>
+              </ul>
+            </div>
+            <button onclick="window.location.href='login.html?role=student'"
+              class="btn-animate mt-8 w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md">
+              Sign In as Student
+            </button>
+          </div>
+
+          <!-- Faculty Card -->
+          <div
+            class="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-[28px] p-7 shadow-sm flex flex-col justify-between card-hover group reveal-on-scroll delay-200">
+            <div class="space-y-5">
+              <div
+                class="h-14 w-14 rounded-2xl bg-slate-900/10 dark:bg-white/10 text-slate-900 dark:text-white flex items-center justify-center text-2xl font-bold group-hover:scale-110 group-hover:bg-slate-900 dark:group-hover:bg-white dark:group-hover:text-black transition-all duration-300">
+                <i class="fa-solid fa-user-tie"></i>
+              </div>
+              <div>
+                <h3
+                  class="font-display font-bold text-2xl text-slate-900 dark:text-white group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
+                  Faculty Advisor</h3>
+                <p class="text-sm text-slate-500 dark:text-zinc-400 mt-2 leading-relaxed">Receive verified departmental
+                  complaints, assign specialized technicians with deadlines, and audit QA proof.</p>
+              </div>
+              <ul
+                class="text-xs sm:text-sm text-slate-600 dark:text-zinc-300 space-y-2.5 pt-3 border-t border-slate-100 dark:border-zinc-800">
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-slate-900 dark:text-white"></i>
+                  Department Ticket Queue</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-slate-900 dark:text-white"></i>
+                  Tech Work Order Dispatch</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-slate-900 dark:text-white"></i>
+                  Final QA Inspection Approval</li>
+              </ul>
+            </div>
+            <button onclick="window.location.href='login.html?role=faculty'"
+              class="btn-animate mt-8 w-full py-3.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-black font-bold text-sm shadow-md">
+              Sign In as Faculty
+            </button>
+          </div>
+
+          <!-- Technician Card -->
+          <div
+            class="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-[28px] p-7 shadow-sm flex flex-col justify-between card-hover group reveal-on-scroll delay-300">
+            <div class="space-y-5">
+              <div
+                class="h-14 w-14 rounded-2xl bg-violet-600/10 text-violet-600 flex items-center justify-center text-2xl font-bold group-hover:scale-110 group-hover:bg-violet-600 group-hover:text-white transition-all duration-300">
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+              </div>
+              <div>
+                <h3
+                  class="font-display font-bold text-2xl text-slate-900 dark:text-white group-hover:text-violet-600 transition-colors">
+                  Technician Agent</h3>
+                <p class="text-sm text-slate-500 dark:text-zinc-400 mt-2 leading-relaxed">Accept forwarded repair tasks,
+                  track completion deadlines, and submit photographic proof of completed work.</p>
+              </div>
+              <ul
+                class="text-xs sm:text-sm text-slate-600 dark:text-zinc-300 space-y-2.5 pt-3 border-t border-slate-100 dark:border-zinc-800">
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-violet-600"></i> Work Order Task
+                  Accept/Decline</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-violet-600"></i> SLA Deadline
+                  Countdown</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-violet-600"></i> Mandatory Photo
+                  Proof Upload</li>
+              </ul>
+            </div>
+            <button onclick="window.location.href='login.html?role=technician'"
+              class="btn-animate mt-8 w-full py-3.5 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-bold text-sm shadow-md">
+              Sign In as Technician
+            </button>
+          </div>
+
+          <!-- Admin Card -->
+          <div
+            class="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-[28px] p-7 shadow-sm flex flex-col justify-between card-hover group reveal-on-scroll delay-400">
+            <div class="space-y-5">
+              <div
+                class="h-14 w-14 rounded-2xl bg-emerald-600/10 text-emerald-600 flex items-center justify-center text-2xl font-bold group-hover:scale-110 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
+                <i class="fa-solid fa-user-shield"></i>
+              </div>
+              <div>
+                <h3
+                  class="font-display font-bold text-2xl text-slate-900 dark:text-white group-hover:text-emerald-600 transition-colors">
+                  Principal Office Admin</h3>
+                <p class="text-sm text-slate-500 dark:text-zinc-400 mt-2 leading-relaxed">Audit inbound student reports,
+                  oversee technician registries, analyze SLA metrics, and export reports.</p>
+              </div>
+              <ul
+                class="text-xs sm:text-sm text-slate-600 dark:text-zinc-300 space-y-2.5 pt-3 border-t border-slate-100 dark:border-zinc-800">
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600"></i> Inbound
+                  Verification Desk</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600"></i> Analytics &
+                  Charting Hub</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600"></i> Audited CSV
+                  Report Export</li>
+              </ul>
+            </div>
+            <button onclick="window.location.href='login.html?role=admin'"
+              class="btn-animate mt-8 w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md">
+              Access Admin Terminal
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4-STEP RESOLUTION MATRIX DIAGRAM -->
+      <div </section>
+        <section id="view-student" class="hidden space-y-6">
+          <div class="grid lg:grid-cols-[280px_1fr] gap-6">
+            <!-- Left Navigation Sticky Pane -->
+            <div
+              class="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-[24px] p-5 h-fit sticky top-24 shadow-sm">
+              <div class="flex items-center gap-3">
+                <div id="stuAvatarBig"
+                  class="h-12 w-12 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-lg overflow-hidden bg-cover bg-center">
+                </div>
+                <div>
+                  <div id="stuNameBig" class="font-bold font-display text-slate-900 dark:text-white"></div>
+                  <div id="stuDeptBig" class="text-xs text-slate-500"></div>
+                </div>
+              </div>
+              <div class="mt-6 space-y-2">
+                <button onclick="scrollToId('stuStats')"
+                  class="w-full text-left px-4 py-2.5 rounded-xl bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300 font-semibold text-sm"><i
+                    class="fa-solid fa-chart-pie w-5"></i> Overview</button>
+                <button onclick="openComplaintModal()"
+                  class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-slate-50 dark:hover:bg-zinc-800 text-sm font-medium"><i
+                    class="fa-solid fa-plus w-5"></i> File Complaint</button>
+                <button onclick="scrollToId('stuList')"
+                  class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-slate-50 dark:hover:bg-zinc-800 text-sm font-medium"><i
+                    class="fa-solid fa-list-check w-5"></i> My Complaints</button>
+                <button onclick="openProfileModal()"
+                  class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-slate-50 dark:hover:bg-zinc-800 text-sm font-semibold text-blue-600 dark:text-blue-400"><i
+                    class="fa-solid fa-user-pen w-5"></i> Edit Profile</button>
+              </div>
+            </div>
+
+            <!-- Main Student Workspace -->
+            <div class="space-y-6">
+              <div id="studentWarningContainer"></div>
+
+              <div id="stuStats" class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-[20px] p-5">
+                  <div class="text-xs text-slate-500 font-semibold">Total Filed</div>
+                  <div id="sTotal" class="text-3xl font-extrabold font-display mt-2">0</div>
+                </div>
+                <div class="bg-white dark:bg-zinc-900 border rounded-[20px] p-5">
+                  <div class="text-xs text-slate-500 font-semibold">Under Admin Verification</div>
+                  <div id="sPending" class="text-3xl font-extrabold font-display mt-2 text-amber-600">0</div>
+                </div>
+                <div class="bg-white dark:bg-zinc-900 border rounded-[20px] p-5">
+                  <div class="text-xs text-slate-500 font-semibold font-semibold">Active Resolutions</div>
+                  <div id="sActive" class="text-3xl font-extrabold font-display mt-2 text-blue-600">0</div>
+                </div>
+                <div class="bg-white dark:bg-zinc-900 border rounded-[20px] p-5">
+                  <div class="text-xs text-slate-500 font-semibold">Perfected & Closed</div>
+                  <div id="sClosed" class="text-3xl font-extrabold font-display mt-2 text-emerald-600">0</div>
+                </div>
+              </div>
+
+              <div id="stuList" class="space-y-4"></div>
+            </div>
+          </div>
+        </section>
+        <section id="view-faculty" class="hidden space-y-6">
+          <div
+            class="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-[24px] p-6 flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 class="font-display font-bold text-xl flex items-center gap-2"><i
+                  class="fa-solid fa-school text-blue-600"></i> <span id="facDeptHeader">Department Faculty Panel</span>
+              </h2>
+              <p class="text-sm text-slate-500">Monitor department tickets, assign targeted technicians with deadlines,
+                and verify finalized proof photos.</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+              <input id="facSearch" oninput="renderFaculty()" placeholder="Search dept issues..."
+                class="px-4 py-2 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm w-full sm:w-64 outline-none">
+              <div id="facCountBadge"
+                class="px-3 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-black text-sm font-bold">0
+                tickets</div>
+            </div>
+          </div>
+          <div id="facultyList" class="grid lg:grid-cols-2 gap-4"></div>
+        </section>
+        <section id="view-technician" class="hidden space-y-6">
+          <div
+            class="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-[24px] p-6 flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 class="font-display font-bold text-xl flex items-center gap-2"><i
+                  class="fa-solid fa-screwdriver-wrench text-violet-600"></i> Technician Action Queue</h2>
+              <p class="text-sm text-slate-500">Receive forwarded work orders, accept or decline with comments, track
+                deadlines, and submit tubelight proof.</p>
+            </div>
+            <div id="techCountBadge"
+              class="px-3 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-black text-sm font-bold">0
+              Tasks</div>
+          </div>
+          <div id="technicianList" class="grid lg:grid-cols-2 gap-4"></div>
+        </section>
+        <section id="view-admin" class="hidden space-y-6">
+          <!-- Nav links -->
+          <div class="flex flex-wrap gap-2">
+            <button id="aTabDash" onclick="switchAdmin('dash')"
+              class="px-5 py-2.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-black font-bold text-sm">Operations
+              Analytics</button>
+            <button id="aTabTickets" onclick="switchAdmin('tickets')"
+              class="px-5 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border font-semibold text-sm">Inbound
+              Verification</button>
+            <button id="aTabStaff" onclick="switchAdmin('staff')"
+              class="px-5 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border font-semibold text-sm">Technician
+              Registry</button>
+            <button id="aTabStudents" onclick="switchAdmin('students')"
+              class="px-5 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border font-semibold text-sm">Student
+              Directory</button>
+            <button id="aTabReports" onclick="switchAdmin('reports')"
+              class="px-5 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border font-semibold text-sm">Reports</button>
+          </div>
+
+          <!-- Dash Analytics View -->
+          <div id="admin-dash" class="space-y-6">
+            <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
+              <div class="bg-white dark:bg-zinc-900 border rounded-2xl p-5">
+                <div class="text-xs text-slate-500">Total Systemic Issues</div>
+                <div id="aTotal" class="text-2xl font-extrabold font-display mt-1">0</div>
+              </div>
+              <div class="bg-white dark:bg-zinc-900 border rounded-2xl p-5">
+                <div class="text-xs text-slate-500">Avg Resolution SLA</div>
+                <div id="aAvg" class="text-2xl font-extrabold font-display mt-1">--</div>
+              </div>
+              <div class="bg-white dark:bg-zinc-900 border rounded-2xl p-5">
+                <div class="text-xs text-slate-500">SLA Clearance Rate</div>
+                <div id="aRate" class="text-2xl font-extrabold font-display mt-1">0%</div>
+              </div>
+              <div class="bg-white dark:bg-zinc-900 border rounded-2xl p-5">
+                <div class="text-xs text-slate-500">Student CSAT</div>
+                <div id="aSat" class="text-2xl font-extrabold font-display mt-1 text-blue-600">0.0★</div>
+              </div>
+              <div class="bg-white dark:bg-zinc-900 border rounded-2xl p-5">
+                <div class="text-xs text-slate-500">Contracted Technicians</div>
+                <div id="aStaff" class="text-2xl font-extrabold font-display mt-1">0</div>
+              </div>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-4">
+              <div class="bg-white dark:bg-zinc-900 border rounded-[20px] p-5">
+                <div class="font-semibold text-sm mb-3">Workload Distribution</div>
+                <div class="h-[260px]"><canvas id="chartDept"></canvas></div>
+              </div>
+              <div class="bg-white dark:bg-zinc-900 border rounded-[20px] p-5">
+                <div class="font-semibold text-sm mb-3">Monthly Trends</div>
+                <div class="h-[260px]"><canvas id="chartTrend"></canvas></div>
+              </div>
+              <div class="bg-white dark:bg-zinc-900 border rounded-[20px] p-5">
+                <div class="font-semibold text-sm mb-3">Current Status Distribution</div>
+                <div class="h-[260px]"><canvas id="chartStatus"></canvas></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Admin Verification and Department Dispatch -->
+          <div id="admin-tickets" class="hidden bg-white dark:bg-zinc-900 border rounded-[24px] p-6">
+            <div class="flex flex-wrap gap-3 justify-between items-center mb-5">
+              <h3 class="font-display font-bold text-lg">Inbound Complaints Waiting Verification</h3>
+              <div class="flex gap-2">
+                <input id="ticketSearch" oninput="renderAdminTickets()" placeholder="Search titles, GR, block..."
+                  class="px-3 py-2 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm w-64">
+              </div>
+            </div>
+            <div id="adminTicketGrid" class="grid lg:grid-cols-2 gap-4"></div>
+          </div>
+
+          <!-- Admin Technician Registry -->
+          <div id="admin-staff" class="hidden bg-white dark:bg-zinc-900 border rounded-[24px] p-6">
+            <div class="flex justify-between items-center mb-5">
+              <h3 class="font-display font-bold text-lg">Technician Registration & Profiling</h3>
+              <button onclick="openStaffModal()" class="px-4 py-2 rounded-xl bg-blue-600 text-white font-bold text-sm">+
+                Register New Technician</button>
+            </div>
+            <div id="adminStaffList" class="grid md:grid-cols-2 gap-3"></div>
+          </div>
+
+          <!-- Admin Student Directory -->
+          <div id="admin-students" class="hidden bg-white dark:bg-zinc-900 border rounded-[24px] p-6">
+            <div class="flex flex-wrap gap-3 justify-between items-center mb-5">
+              <div>
+                <h3 class="font-display font-bold text-lg">Student Governance Directory</h3>
+                <p class="text-xs text-slate-500 mt-0.5">Control warning alerts and lock active student portal
+                  configurations.</p>
+              </div>
+              <input id="studentSearch" oninput="renderAdminStudents()" placeholder="Search Student name, GR..."
+                class="px-4 py-2 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm w-full sm:w-64">
+            </div>
+            <div id="adminStudentList" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+          </div>
+
+          <!-- Admin Reports -->
+          <div id="admin-reports" class="hidden bg-white dark:bg-zinc-900 border rounded-[24px] p-6">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="font-display font-bold text-lg">Audited Institutional Reports</h3>
+              <div class="flex gap-2">
+                <button onclick="exportCSV()"
+                  class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 border text-sm font-bold"><i
+                    class="fa-solid fa-file-csv mr-1"></i> Export CSV</button>
+                <button onclick="printReport()"
+                  class="px-4 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-black text-sm font-bold"><i
+                    class="fa-solid fa-print mr-1"></i> Print</button>
+              </div>
+            </div>
+            <div class="overflow-x-auto border rounded-xl">
+              <table class="w-full text-sm">
+                <thead class="bg-slate-50 dark:bg-zinc-800 text-xs text-slate-500">
+                  <tr>
+                    <th class="p-3 text-left">ID</th>
+                    <th class="p-3 text-left">Student</th>
+                    <th class="p-3 text-left">Target Dept</th>
+                    <th class="p-3 text-left">Status</th>
+                    <th class="p-3 text-left">Technician</th>
+                    <th class="p-3 text-left">Faculty QA Status</th>
+                    <th class="p-3 text-left">Duration</th>
+                  </tr>
+                </thead>
+                <tbody id="reportBody" class="divide-y divide-slate-100 dark:divide-zinc-800"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+  </main>
+
+  <!-- Shared Footer -->
+  <footer
+    class="mt-auto border-t border-slate-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md relative z-10 py-6 transition-colors">
+    <div
+      class="max-w-[1440px] mx-auto px-4 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-zinc-400">
+      <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
+        <div class="flex items-center gap-3">
+          <img src="assets/logo/logo.png" alt="Campus Connect Logo" class="h-7 w-7 rounded-lg object-contain">
+          <span class="font-display font-semibold text-slate-700 dark:text-zinc-300">&copy; 2026 Campus Connect. All
+            rights reserved.</span>
+        </div>
+
+        <!-- Contact Information Details -->
+        <div
+          class="flex items-center gap-3 border-t sm:border-t-0 sm:border-l border-slate-200 dark:border-zinc-800 pt-2 sm:pt-0 sm:pl-4 text-[11px] font-medium">
+          <a href="tel:1234567890"
+            class="hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-1.5">
+            <i class="fa-solid fa-phone text-blue-600"></i> 1234567890
+          </a>
+          <span class="text-slate-300 dark:text-zinc-700">•</span>
+          <a href="mailto:campus.connect@gmail.com"
+            class="hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-1.5">
+            <i class="fa-solid fa-envelope text-blue-600"></i> campus.connect@gmail.com
+          </a>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-4 sm:gap-6 font-medium">
+        <button href="portal.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">How It Works</button>
+        <button href="roles.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Portals</button>
+
+        <!-- Social Media Buttons -->
+        <div
+          class="flex items-center gap-2 border-t sm:border-t-0 sm:border-l border-slate-200 dark:border-zinc-800 pt-2 sm:pt-0 sm:pl-4">
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" title="Instagram"
+            class="h-8 w-8 rounded-xl bg-slate-100 dark:bg-zinc-800 hover:bg-pink-600 hover:text-white dark:hover:bg-pink-600 dark:hover:text-white flex items-center justify-center text-slate-600 dark:text-zinc-300 transition-all shadow-sm hover:scale-105">
+            <i class="fa-brands fa-instagram text-sm"></i>
+          </a>
+          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" title="Twitter / X"
+            class="h-8 w-8 rounded-xl bg-slate-100 dark:bg-zinc-800 hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-black flex items-center justify-center text-slate-600 dark:text-zinc-300 transition-all shadow-sm hover:scale-105">
+            <i class="fa-brands fa-x-twitter text-sm"></i>
+          </a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" title="LinkedIn"
+            class="h-8 w-8 rounded-xl bg-slate-100 dark:bg-zinc-800 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white flex items-center justify-center text-slate-600 dark:text-zinc-300 transition-all shadow-sm hover:scale-105">
+            <i class="fa-brands fa-linkedin-in text-sm"></i>
+          </a>
+        </div>
+
+        <span
+          class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold text-[10px]">
+          <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          System Operational
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Global Modals -->
+  <!-- Profile Editing Modal -->
+  <div id="modalProfile" class="fixed inset-0 hidden z-50 overflow-y-auto">
+    <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeProfileModal()"></div>
+    <div
+      class="relative max-w-md mx-auto mt-20 mb-10 bg-white dark:bg-zinc-900 rounded-[24px] border border-slate-200 dark:border-zinc-800 p-6 shadow-2xl">
+      <div class="flex justify-between items-center mb-4">
+        <h3 id="profileModalTitle" class="font-display font-bold text-lg text-slate-900 dark:text-white">User Profile
+          Settings</h3>
+        <button onclick="closeProfileModal()"
+          class="h-8 w-8 rounded-full bg-slate-100 dark:bg-zinc-800 flex items-center justify-center"><i
+            class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form onsubmit="saveProfile(event)" class="space-y-4">
+        <div><label class="text-xs font-semibold text-slate-700 dark:text-zinc-200">Full Name</label><input
+            id="profName" required
+            class="mt-1.5 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></div>
+        <div id="profDeptGroup"><label id="profDeptLabel"
+            class="text-xs font-semibold text-slate-700 dark:text-zinc-200">Department</label><input id="profDept"
+            class="mt-1.5 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></div>
+        <div><label class="text-xs font-semibold text-slate-700 dark:text-zinc-200">System Password</label><input
+            id="profPass" type="password" required
+            class="mt-1.5 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></div>
+        <div><label class="text-xs font-semibold text-slate-700 dark:text-zinc-200">Avatar Image URL</label><input
+            id="profImgUrl" placeholder="https://example.com/photo.jpg"
+            class="mt-1.5 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></div>
+        <div>
+          <label class="text-xs font-semibold text-slate-700 dark:text-zinc-200">Or Upload Avatar</label>
+          <div class="mt-1.5 border border-dashed rounded-xl p-3 bg-slate-50 dark:bg-zinc-800 text-center">
+            <input type="file" id="profFile" accept="image/*" onchange="handleProfileImgUpload(this)" class="text-xs">
+          </div>
+        </div>
+        <button class="w-full py-3 rounded-xl bg-blue-600 text-white font-bold text-sm shadow-md">Update
+          Configuration</button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Media evidence visual lightbox -->
+  <div id="modalImg"
+    class="fixed inset-0 hidden z-[70] bg-black/95 backdrop-blur-md flex items-center justify-center p-6"
+    onclick="closeLightbox()">
+    <div class="max-w-3xl w-full text-center relative" onclick="event.stopPropagation()">
+      <button onclick="closeLightbox()" class="absolute -top-12 right-0 text-white text-2xl"><i
+          class="fa-solid fa-circle-xmark"></i></button>
+      <div id="lightboxMediaContainer"
+        class="rounded-2xl overflow-hidden shadow-2xl bg-black max-h-[75vh] flex items-center justify-center"></div>
+      <div id="bigCap" class="mt-3 text-white text-sm bg-white/10 inline-block px-4 py-2 rounded-full"></div>
+    </div>
+  </div>
+
+
+
+  <!-- Page Specific Modals -->
+  <!-- Complaint Submission Modal -->
+  <div id="modalComplaint" class="fixed inset-0 hidden z-50 overflow-y-auto">
+    <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeComplaintModal()"></div>
+    <div
+      class="relative max-w-xl mx-auto my-10 bg-white dark:bg-zinc-900 rounded-[28px] border border-slate-200 dark:border-zinc-800 shadow-2xl overflow-hidden">
+      <div
+        class="p-6 border-b border-slate-150 dark:border-zinc-800 bg-slate-50/60 dark:bg-zinc-800/50 flex justify-between items-center">
+        <div>
+          <div class="font-display font-bold text-lg text-slate-900 dark:text-white">File Institutional Complaint</div>
+          <div class="text-xs text-slate-500">Auto priority routing • Live Evidence attachment</div>
+        </div>
+        <button onclick="closeComplaintModal()"
+          class="h-8 w-8 rounded-full bg-white dark:bg-zinc-800 border flex items-center justify-center"><i
+            class="fa-solid fa-xmark text-xs"></i></button>
+      </div>
+      <form onsubmit="submitComplaint(event)" class="p-6 space-y-4">
+        <div id="priorityDetectAlert"
+          class="hidden p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs flex justify-between items-center text-amber-800 dark:text-amber-400">
+          <div class="flex items-center gap-2 font-semibold"><i
+              class="fa-solid fa-triangle-exclamation"></i><span>Safety Risk Auto-escalated: High Priority Systemic
+              Dispatch</span></div>
+        </div>
+
+        <div><label class="text-xs font-semibold">Title (e.g. Broken bench / Open copper wire sparks)</label><input
+            id="cTitle" required oninput="runKeywordDetect()" placeholder="Summarize the issue"
+            class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="text-xs font-semibold">Department Target Category</label>
+            <select id="cCategory"
+              class="mt-1.5 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm">
+              <option value="Computer Department">Computer Department</option>
+              <option value="Electrical Department">Electrical Department</option>
+              <option value="Mechanical Department">Mechanical Department</option>
+              <option value="Civil Department">Civil Department</option>
+            </select>
+          </div>
+          <div><label class="text-xs font-semibold">Severity Priority</label>
+            <select id="cPriority"
+              class="mt-1.5 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm">
+              <option value="Low">Low Priority (e.g. Dusty Fan)</option>
+              <option value="Medium">Medium Priority</option>
+              <option value="High">High Priority (e.g. Danger/Sparks)</option>
+            </select>
+          </div>
+        </div>
+        <div><label class="text-xs font-semibold">Location / Venue</label><input id="cLocation" required
+            placeholder="e.g. CS Block A Lab 3"
+            class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></div>
+        <div><label class="text-xs font-semibold">Comprehensive Description</label><textarea id="cDesc" required
+            oninput="runKeywordDetect()" rows="2" placeholder="Describe the physical condition..."
+            class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></textarea></div>
+
+
+        <!-- Admin Route and Verification Modal -->
+        <div id="modalAdminRoute" class="fixed inset-0 hidden z-50">
+          <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeAdminRouteModal()"></div>
+          <div class="relative max-w-md mx-auto mt-20 bg-white dark:bg-zinc-900 rounded-[24px] border p-6 shadow-2xl">
+            <h3 class="font-bold font-display text-lg">Inbound Verifier & Route Dispatcher</h3>
+            <p id="adminVerifyTitle" class="text-xs text-slate-500 mt-1"></p>
+
+            <form onsubmit="confirmAdminDispatch(event)" class="space-y-4 mt-4">
+              <input type="hidden" id="adminVerifyId">
+              <div>
+                <label class="text-xs font-semibold">Dispatch to Academic Department</label>
+                <select id="adminRouteDept"
+                  class="mt-1.5 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm">
+                  <option value="Computer Department">Computer Department Faculty Office</option>
+                  <option value="Electrical Department">Electrical Department Faculty Office</option>
+                  <option value="Mechanical Department">Mechanical Department Faculty Office</option>
+                  <option value="Civil Department">Civil Department Faculty Office</option>
+                </select>
+              </div>
+              <div class="flex gap-2">
+                <button type="button" onclick="adminRejectTicket()"
+                  class="flex-1 py-3 rounded-xl bg-red-50 text-red-600 font-bold border border-red-200 text-sm">Reject /
+                  Close Fraud</button>
+                <button type="submit" class="flex-[2] py-3 rounded-xl bg-blue-600 text-white font-bold text-sm">Verify &
+                  Forward</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+
+        <!-- Faculty Assignment to Technician Modal -->
+        <div id="modalFacultyForward" class="fixed inset-0 hidden z-50">
+          <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeFacultyForwardModal()"></div>
+          <div class="relative max-w-md mx-auto mt-20 bg-white dark:bg-zinc-900 rounded-[24px] border p-6 shadow-2xl">
+            <h3 class="font-bold font-display text-lg">Forward Work Order to Technician</h3>
+            <p id="forwardVerifyLabel" class="text-xs text-slate-500 mt-1"></p>
+
+            <form onsubmit="confirmFacultyForward(event)" class="space-y-4 mt-4">
+              <input type="hidden" id="forwardVerifyId">
+              <div>
+                <label class="text-xs font-semibold">Select Available Specialized Technician</label>
+                <select id="forwardSelectedTech"
+                  class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></select>
+              </div>
+              <div>
+                <label class="text-xs font-semibold">Set Completion Deadline Date</label>
+                <input type="date" id="forwardDeadline" required
+                  class="mt-1.5 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm font-medium">
+              </div>
+              <button
+                class="w-full py-3 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-black font-bold text-sm shadow-md">Dispatch
+                to Technician Agent</button>
+            </form>
+          </div>
+        </div>
+
+
+        <!-- Technician Decline Dialogue -->
+        <div id="modalDeclineTech" class="fixed inset-0 hidden z-50">
+          <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeDeclineTechModal()"></div>
+          <div class="relative max-w-sm mx-auto mt-24 bg-white dark:bg-zinc-900 rounded-[24px] border p-6 shadow-2xl">
+            <h3 class="font-bold text-lg font-display">Decline Work Order Assignment</h3>
+            <form onsubmit="confirmDeclineTech(event)" class="space-y-4 mt-4">
+              <input type="hidden" id="declineTechId">
+              <div>
+                <label class="text-xs font-semibold">State Reason for Rejection</label>
+                <textarea id="declineTechReason" required placeholder="Describe material shortage, double booking..."
+                  rows="3"
+                  class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></textarea>
+              </div>
+              <div class="flex gap-2">
+                <button type="button" onclick="closeDeclineTechModal()"
+                  class="flex-1 py-3 rounded-xl bg-slate-100 dark:bg-zinc-800 font-bold text-sm">Cancel</button>
+                <button type="submit" class="flex-1 py-3 rounded-xl bg-red-600 text-white font-bold text-sm">Confirm
+                  Decline</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+
+        <!-- Technician Complete Task Modal -->
+        <div id="modalCompleteTech" class="fixed inset-0 hidden z-50 overflow-y-auto">
+          <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeCompleteTechModal()"></div>
+          <div
+            class="relative max-w-md mx-auto my-20 bg-white dark:bg-zinc-900 rounded-[28px] border shadow-2xl overflow-hidden">
+            <div class="p-6 border-b flex justify-between items-center">
+              <h3 class="font-bold text-lg font-display">Mark Task Complete & Submit Tubelight Proof</h3>
+              <button onclick="closeCompleteTechModal()"
+                class="h-8 w-8 rounded-full bg-slate-100 dark:bg-zinc-800 flex items-center justify-center"><i
+                  class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form onsubmit="confirmCompleteTech(event)" class="p-6 space-y-4">
+              <input type="hidden" id="completeTechId">
+              <div class="border-2 border-dashed rounded-2xl p-4 text-center bg-slate-50/50 dark:bg-zinc-800/30">
+                <input type="file" id="proofImgInput" accept="image/*" onchange="handleProofPhotoUpload(this)"
+                  class="hidden">
+                <div id="proofPlaceholderBtn">
+                  <i class="fa-solid fa-camera text-xl text-slate-400"></i>
+                  <div class="text-xs mt-1">
+                    <button type="button" onclick="document.getElementById('proofImgInput').click()"
+                      class="font-bold text-blue-600 hover:underline">Upload completion image *</button>
+                  </div>
+                </div>
+                <div id="proofImgPreview" class="hidden"><img id="proofPreviewTag"
+                    class="mx-auto max-h-32 rounded-xl border"></div>
+              </div>
+              <div>
+                <label class="text-xs font-semibold">Resolution Comments</label>
+                <textarea id="completeRemark" required
+                  placeholder="Describe details (e.g. Replaced 40W white tubelight block)" rows="3"
+                  class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></textarea>
+              </div>
+              <button class="w-full py-3 rounded-xl bg-emerald-600 text-white font-bold text-sm shadow-md">Submit for
+                Faculty Inspection</button>
+            </form>
+          </div>
+        </div>
+
+
+        <!-- Faculty Inspect and QA Modal -->
+        <div id="modalFacultyQa" class="fixed inset-0 hidden z-50">
+          <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeFacultyQaModal()"></div>
+          <div class="relative max-w-md mx-auto mt-20 bg-white dark:bg-zinc-900 rounded-[24px] border p-6 shadow-2xl">
+            <h3 class="font-bold font-display text-lg">Department QA & Inspection</h3>
+            <p class="text-xs text-slate-500 mt-1">Review resolution proof, and confirm if perfectly completed.</p>
+            <form onsubmit="confirmFacultyQa(event)" class="space-y-4 mt-4">
+              <input type="hidden" id="qaVerifyId">
+              <div class="grid grid-cols-2 gap-2">
+                <button type="button" id="btnQaApprove" onclick="setFacultyQaApproval(true)"
+                  class="py-3 rounded-xl bg-blue-600 text-white font-bold text-sm border-2 border-blue-600"><i
+                    class="fa-solid fa-circle-check mr-1"></i> Approve Perfect</button>
+                <button type="button" id="btnQaReject" onclick="setFacultyQaApproval(false)"
+                  class="py-3 rounded-xl bg-white dark:bg-zinc-800 border-2 text-sm font-semibold"><i
+                    class="fa-solid fa-rotate-left mr-1"></i> Reject & Redo</button>
+              </div>
+              <div>
+                <label class="text-xs font-semibold">Inspector Feedback Comments</label>
+                <textarea id="qaFeedbackComment" required rows="3" placeholder="Enter inspection notes..."
+                  class="mt-1.5 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></textarea>
+              </div>
+              <button
+                class="w-full py-3 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-black font-bold text-sm">Save
+                QA Inspection Status</button>
+            </form>
+          </div>
+        </div>
+
+
+        <!-- Admin Technician Accounts Modal -->
+        <div id="modalStaff" class="fixed inset-0 hidden z-50">
+          <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeStaffModal()"></div>
+          <div class="relative max-w-sm mx-auto mt-20 bg-white dark:bg-zinc-900 rounded-[24px] border p-6 shadow-2xl">
+            <h3 class="font-bold">Register / Modify Technician</h3>
+            <form onsubmit="saveStaff(event)" class="space-y-3 mt-4">
+              <input type="hidden" id="staffEditId">
+              <div><label class="text-xs font-semibold">Technician Name</label><input id="staffName" required
+                  class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></div>
+              <div>
+                <label class="text-xs font-semibold">Specialized Department</label>
+                <select id="staffDept"
+                  class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm">
+                  <option value="Computer Department">Computer Department</option>
+                  <option value="Electrical Department">Electrical Department</option>
+                  <option value="Mechanical Department">Mechanical Department</option>
+                  <option value="Civil Department">Civil Department</option>
+                </select>
+              </div>
+              <div><label class="text-xs font-semibold">Years of Operational Experience</label><input type="number"
+                  id="staffExp" required min="0" max="40"
+                  class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></div>
+              <div><label class="text-xs font-semibold">Account Password</label><input id="staffPassNew" required
+                  class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></div>
+              <div class="flex gap-2 pt-2">
+                <button type="button" onclick="closeStaffModal()"
+                  class="flex-1 py-3 rounded-xl bg-slate-100 dark:bg-zinc-800 font-bold text-sm">Cancel</button>
+                <button class="flex-1 py-3 rounded-xl bg-blue-600 text-white font-bold text-sm">Save Registry</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+
+        <!-- Admin Student Profile Override Modal -->
+        <div id="modalAdminUserEdit" class="fixed inset-0 hidden z-50 overflow-y-auto">
+          <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeAdminUserEdit()"></div>
+          <div class="relative max-w-md mx-auto mt-20 bg-white dark:bg-zinc-900 rounded-[24px] border p-6 shadow-2xl">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="font-display font-bold text-lg">Admin Profile Modification Override</h3>
+              <button onclick="closeAdminUserEdit()"
+                class="h-8 w-8 rounded-full bg-slate-100 dark:bg-zinc-800 flex items-center justify-center"><i
+                  class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form onsubmit="saveAdminUserEdit(event)" class="space-y-4">
+              <input type="hidden" id="adminUserEditGr">
+              <div><label class="text-xs font-semibold text-slate-700 dark:text-zinc-200">Student Name</label><input
+                  id="adminUserEditName" required
+                  class="mt-1.5 w-full px-4 py-3 bg-slate-50 dark:bg-zinc-800 rounded-xl border text-sm"></div>
+              <div><label class="text-xs font-semibold text-slate-700 dark:text-zinc-200">Department /
+                  Class</label><input id="adminUserEditDept" required
+                  class="mt-1.5 w-full px-4 py-3 bg-slate-50 dark:bg-zinc-800 rounded-xl border text-sm"></div>
+              <div><label class="text-xs font-semibold text-slate-700 dark:text-zinc-200">Security
+                  Password</label><input id="adminUserEditPass" type="text" required
+                  class="mt-1.5 w-full px-4 py-3 bg-slate-50 dark:bg-zinc-800 rounded-xl border text-sm"></div>
+              <div><label class="text-xs font-semibold text-slate-700 dark:text-zinc-200">Avatar Image
+                  Link</label><input id="adminUserEditImgUrl"
+                  class="mt-1.5 w-full px-4 py-3 bg-slate-50 dark:bg-zinc-800 rounded-xl border text-sm"></div>
+              <button class="w-full py-3 rounded-xl bg-blue-600 text-white font-bold text-sm">Apply Administrator
+                Settings</button>
+            </form>
+          </div>
+        </div>
+
+
+
+        <!-- Modular JavaScript Engine -->
+        <script src="js/main.js"></script>
+        <script src="js/navigation.js"></script>
+        <script src="js/animations.js"></script>
+        <script src="js/portal.js"></script>
+        <script src="js/roles.js"></script>
+</body>
+
+</html>

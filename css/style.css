@@ -1,0 +1,115 @@
+/* ==========================================================================
+   Campus Connect - Common Stylesheet (style.css)
+   ========================================================================== */
+
+
+*{ -webkit-font-smoothing:antialiased }
+body{font-family:Inter,sans-serif}
+.font-display{font-family:'Plus Jakarta Sans',sans-serif}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:999px}
+.dark ::-webkit-scrollbar-thumb{background:#3f3f46}
+.modal-backdrop{backdrop-filter:blur(16px)}
+
+/* Enhanced Animations & Transitions */
+.card-hover{transition:all .35s cubic-bezier(.175,.885,.32,1.275)}
+.card-hover:hover{transform:translateY(-6px) scale(1.015);box-shadow:0 22px 45px -12px rgba(37,99,235,.22)}
+
+.btn-animate{transition:all .25s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+.btn-animate:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 12px 25px -8px rgba(37,99,235,.35)}
+.btn-animate:active{transform:translateY(1px) scale(0.98)}
+
+.gradient-text{background:linear-gradient(135deg,#2563eb 0%,#7c3aed 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.dark .gradient-text{background:linear-gradient(135deg,#60a5fa 0%,#c084fc 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+/* Custom Keyframe Animations */
+@keyframes pulseGlow{0%,100%{opacity:0.6;transform:scale(1)}50%{opacity:0.95;transform:scale(1.06)}}
+.animate-glow{animation:pulseGlow 4s infinite ease-in-out}
+
+@keyframes floatSlow{0%,100%{transform:translateY(0px)}50%{transform:translateY(-10px)}}
+.animate-float{animation:floatSlow 5s ease-in-out infinite}
+
+@keyframes shimmerWave{0%{background-position:-200% 0}100%{background-position:200% 0}}
+.shimmer-btn{background:linear-gradient(90deg, #2563eb 0%, #4f46e5 30%, #7c3aed 50%, #4f46e5 70%, #2563eb 100%);background-size:200% 100%;animation:shimmerWave 4s linear infinite}
+.shimmer-btn:hover{animation-duration:1.5s}
+
+@keyframes wiggle{0%,100%{transform:rotate(0deg)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+.group:hover .animate-wiggle{animation:wiggle .4s ease-in-out}
+
+@keyframes borderRotate{0%{border-color:rgba(37,99,235,0.4)}50%{border-color:rgba(124,58,237,0.8)}100%{border-color:rgba(37,99,235,0.4)}}
+.animate-border{animation:borderRotate 3s infinite ease-in-out}
+
+@keyframes pulseRing{0%{transform:scale(0.95);box-shadow:0 0 0 0 rgba(37,99,235,0.7)}70%{transform:scale(1);box-shadow:0 0 0 10px rgba(37,99,235,0)}100%{transform:scale(0.95);box-shadow:0 0 0 0 rgba(37,99,235,0)}}
+.pulse-ring{animation:pulseRing 2s infinite}
+
+/* Image Zoom Effect */
+.img-zoom{transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.group:hover .img-zoom, .card-hover:hover .img-zoom{transform:scale(1.08)}
+
+/* Scroll Reveal Base Classes */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(35px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger Delay Delays */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+
+
+/* Active Nav State */
+.nav-active-pill {
+  background-color: rgb(37 99 235 / 0.1) !important;
+  color: #2563eb !important;
+  font-weight: 700 !important;
+}
+
+.dark .nav-active-pill {
+  background-color: rgb(59 130 246 / 0.18) !important;
+  color: #60a5fa !important;
+}
+
+/* Dynamic Header Hide/Show Physics */
+#main-header {
+  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+              background-color 0.3s ease,
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+  transform: translateY(0);
+  opacity: 1;
+  will-change: transform, opacity;
+}
+
+#main-header.navbar-hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Page Transition Entrance */
+.page-view {
+  animation: pageEntrance 0.38s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: opacity, transform, filter;
+}
+
+@keyframes pageEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.994);
+    filter: blur(3px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
