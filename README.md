@@ -2,7 +2,6 @@
 
 A high-performance, modular multi-page institutional governance and facility resolution web application built with HTML5, CSS3, Vanilla JavaScript, and Tailwind CSS.
 
----
 
 ## Project Structure
 
