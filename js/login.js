@@ -3,16 +3,6 @@
    ========================================================================== */
 
 /* ---------- ROLE SWITCHING & AUTH ---------- */
-function toggleTheme() {
-  const root = document.documentElement;
-  const icon = document.getElementById('themeIcon');
-  if (root.classList.contains('dark')) {
-    root.classList.remove('dark'); icon.className = 'fa-solid fa-moon';
-  } else {
-    root.classList.add('dark'); icon.className = 'fa-solid fa-sun';
-  }
-  if (activeAdminViewTab === 'dash') setTimeout(drawCharts, 100);
-}
 
 function switchRole(r) {
   ['Student', 'Faculty', 'Technician', 'Admin'].forEach(k => {

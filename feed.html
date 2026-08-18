@@ -1,11 +1,41 @@
 <!DOCTYPE html>
-<html lang="en" class="light scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Live Public Campus Transparency Feed - Campus Connect</title>
   
-  <!-- Tailwind CSS CDN & Config -->
+  <!-- Instant Zero-Flash Theme Initialization Script (Executes before paint) -->
+  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('campus_connect_theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var isDark = saved === 'dark' || (!saved && prefersDark);
+        if (isDark) {
+          document.documentElement.classList.add('dark');
+          document.documentElement.classList.remove('light');
+          document.documentElement.style.backgroundColor = '#070A13';
+          document.documentElement.style.colorScheme = 'dark';
+        } else {
+          document.documentElement.classList.add('light');
+          document.documentElement.classList.remove('dark');
+          document.documentElement.style.backgroundColor = '#f8fafc';
+          document.documentElement.style.colorScheme = 'light';
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Critical Asset Preloads & Prefetches -->
+  <link rel="preload" href="assets/logo/logo.png" as="image">
+  <link rel="preload" href="bg.png" as="image">
+  <link rel="prefetch" href="index.html">
+  <link rel="prefetch" href="portal.html">
+  <link rel="prefetch" href="roles.html">
+  <link rel="prefetch" href="login.html">
+
+  <!-- Tailwind CSS CDN & Config with Aurora Palette -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -13,10 +43,10 @@
       theme: {
         extend: {
           colors: {
-            brand: { blue:'#2563eb', cyan:'#06b6d4', emerald:'#059669', violet:'#7c3aed', amber:'#d97706' }
+            brand: { purple:'#7C3AED', cyan:'#06B6D4', accent:'#22D3EE', highlight:'#A78BFA', dark:'#070A13', surface:'#151B32', border:'#26304A' }
           },
           fontFamily: { sans:['Inter','sans-serif'], display:['Plus Jakarta Sans','sans-serif'] },
-          boxShadow: { soft:'0 8px 30px rgba(0,0,0,0.06)', softDark:'0 8px 30px rgba(0,0,0,0.3)', glow:'0 0 25px rgba(37,99,235,0.2)' }
+          boxShadow: { soft:'0 8px 30px rgba(0,0,0,0.06)', softDark:'0 8px 30px rgba(7,10,19,0.5)', aurora:'0 0 25px rgba(124,58,237,0.25), 0 0 40px rgba(6,182,212,0.15)' }
         }
       }
     }
@@ -31,23 +61,22 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/feed.css">
 </head>
-<body class="bg-[#f8fafc] dark:bg-[#070709] text-slate-900 dark:text-zinc-100 min-h-screen flex flex-col transition-colors duration-500 selection:bg-blue-600 selection:text-white relative">
+<body class="bg-[#f8fafc] dark:bg-[#070A13] text-slate-900 dark:text-[#F9FAFB] min-h-screen flex flex-col transition-colors duration-300 selection:bg-[#7C3AED] selection:text-white relative">
 
-  <!-- Background ambient blur decoration -->
-  <!-- Background ambient blur decoration -->
-<div id="bc-bg" class="fixed inset-0 z-0 pointer-events-none">
-  <div class="absolute inset-0 bg-[url('bg.png')] bg-cover bg-center bg-no-repeat bg-fixed opacity-30 dark:opacity-20"></div>
-  <div class="absolute -top-32 -left-32 w-[700px] h-[700px] bg-blue-600/15 dark:bg-blue-600/15 blur-[140px] rounded-full animate-glow"></div>
-  <div class="absolute -bottom-32 -right-32 w-[700px] h-[700px] bg-violet-600/15 dark:bg-violet-600/15 blur-[140px] rounded-full animate-glow" style="animation-delay: 2s;"></div>
+  <!-- Ambient Aurora Space Background -->
+<div id="bc-bg" class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+  <div class="absolute inset-0 bg-[url('bg.png')] bg-cover bg-center bg-no-repeat bg-fixed opacity-20 dark:opacity-10"></div>
+  <div class="absolute -top-40 -left-40 w-[800px] h-[800px] bg-[#7C3AED]/20 dark:bg-[#7C3AED]/25 blur-[150px] rounded-full animate-aurora-1"></div>
+  <div class="absolute -bottom-40 -right-40 w-[800px] h-[800px] bg-[#06B6D4]/20 dark:bg-[#06B6D4]/25 blur-[150px] rounded-full animate-aurora-2"></div>
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#22D3EE]/10 dark:bg-[#22D3EE]/12 blur-[160px] rounded-full"></div>
 </div>
 
   <!-- Header Navigation -->
-  <!-- Header Navigation -->
-<header id="main-header" class="sticky top-0 z-40 bg-white/85 dark:bg-zinc-950/80 backdrop-blur-2xl border-b border-slate-200/80 dark:border-zinc-800/80 transition-colors">
+<header id="main-header" class="sticky top-0 z-40 bg-white/85 dark:bg-[#070A13]/85 backdrop-blur-2xl border-b border-slate-200/80 dark:border-[#26304A] transition-colors">
   <div class="max-w-[1440px] mx-auto px-4 lg:px-8 h-[72px] flex items-center justify-between">
     <!-- Brand Logo -->
     <a href="index.html" class="flex items-center gap-3 cursor-pointer group">
-      <img src="assets/logo/logo.png" alt="Campus Connect Logo" class="h-10 w-10 rounded-xl object-contain shadow-lg group-hover:rotate-12 group-hover:scale-110 transition-all duration-300 animate-wiggle">
+      <img src="assets/logo/logo.png" alt="Campus Connect Logo" class="h-10 w-10 rounded-xl object-contain shadow-lg group-hover:rotate-12 group-hover:scale-110 transition-all duration-300 animate-wiggle" width="40" height="40">
       <div>
         <div class="flex items-center gap-2">
           <span class="font-display font-extrabold text-[20px] tracking-tight text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">Campus Connect</span>
@@ -145,19 +174,18 @@
       
       <!-- Department Filter Pills -->
       <div class="flex flex-wrap gap-2 text-sm">
-        <button onclick="filterPublicFeed('all')" class="feed-filter-btn btn-animate px-4 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-black font-bold">All Issues</button>
-        <button onclick="filterPublicFeed('Electrical Department')" class="feed-filter-btn btn-animate px-4 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 font-semibold">Electrical</button>
-        <button onclick="filterPublicFeed('Computer Department')" class="feed-filter-btn btn-animate px-4 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 font-semibold">Computer</button>
-        <button onclick="filterPublicFeed('Mechanical Department')" class="feed-filter-btn btn-animate px-4 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 font-semibold">Mechanical</button>
-        <button onclick="filterPublicFeed('Civil Department')" class="feed-filter-btn btn-animate px-4 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 font-semibold">Civil</button>
+        <button onclick="filterPublicFeed('all')" class="feed-filter-btn btn-animate px-4 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-black font-bold btn-3d">All Issues</button>
+        <button onclick="filterPublicFeed('Electrical Department')" class="feed-filter-btn btn-animate px-4 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 font-semibold btn-3d">Electrical</button>
+        <button onclick="filterPublicFeed('Computer Department')" class="feed-filter-btn btn-animate px-4 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 font-semibold btn-3d">Computer</button>
+        <button onclick="filterPublicFeed('Mechanical Department')" class="feed-filter-btn btn-animate px-4 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 font-semibold btn-3d">Mechanical</button>
+        <button onclick="filterPublicFeed('Civil Department')" class="feed-filter-btn btn-animate px-4 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 font-semibold btn-3d">Civil</button>
       </div>
     </div>
 
     <!-- Feed Grid -->
-    <div id="publicFeedGrid" class="grid md:grid-cols-2 gap-5"></div>
+    <div id="publicFeedGrid" class="grid md:grid-cols-2 gap-5 perspective-container"></div>
   </div>
 
-  
 </section>
   </main>
 
@@ -166,7 +194,7 @@
   <div class="max-w-[1440px] mx-auto px-4 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-zinc-400">
     <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
       <div class="flex items-center gap-3">
-        <img src="assets/logo/logo.png" alt="Campus Connect Logo" class="h-7 w-7 rounded-lg object-contain">
+        <img src="assets/logo/logo.png" alt="Campus Connect Logo" class="h-7 w-7 rounded-lg object-contain" width="28" height="28" loading="lazy">
         <span class="font-display font-semibold text-slate-700 dark:text-zinc-300">&copy; 2026 Campus Connect. All rights reserved.</span>
       </div>
       
@@ -183,8 +211,8 @@
     </div>
 
     <div class="flex flex-wrap items-center gap-4 sm:gap-6 font-medium">
-      <button href="portal.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">How It Works</button>
-      <button href="roles.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Portals</button>
+      <a href="portal.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">How It Works</a>
+      <a href="roles.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Portals</a>
       
       <!-- Social Media Buttons -->
       <div class="flex items-center gap-2 border-t sm:border-t-0 sm:border-l border-slate-200 dark:border-zinc-800 pt-2 sm:pt-0 sm:pl-4">
@@ -227,11 +255,10 @@
           <input type="file" id="profFile" accept="image/*" onchange="handleProfileImgUpload(this)" class="text-xs">
         </div>
       </div>
-      <button class="w-full py-3 rounded-xl bg-blue-600 text-white font-bold text-sm shadow-md">Update Configuration</button>
+      <button class="w-full py-3 rounded-xl bg-blue-600 text-white font-bold text-sm shadow-md btn-3d">Update Configuration</button>
     </form>
   </div>
 </div>
-
 
   <!-- Media evidence visual lightbox -->
 <div id="modalImg" class="fixed inset-0 hidden z-[70] bg-black/95 backdrop-blur-md flex items-center justify-center p-6" onclick="closeLightbox()">
@@ -241,11 +268,6 @@
     <div id="bigCap" class="mt-3 text-white text-sm bg-white/10 inline-block px-4 py-2 rounded-full"></div>
   </div>
 </div>
-
-
-
-  <!-- Page Specific Modals -->
-  
 
   <!-- Modular JavaScript Engine -->
   <script src="js/main.js"></script>

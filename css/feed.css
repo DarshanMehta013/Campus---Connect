@@ -1,2 +1,23 @@
-/* Feed specific styles */
-.feed-filter-btn { transition: all 0.2s ease; }
+/* ==========================================================================
+   Campus Connect - Aurora Public Feed Styles (feed.css)
+   ========================================================================== */
+
+.feed-filter-btn {
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.feed-filter-btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(124, 58, 237, 0.4);
+}
+
+.feed-item-card {
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+}
+
+.feed-item-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  border-color: rgba(124, 58, 237, 0.5);
+  box-shadow: 0 16px 32px -8px rgba(6, 182, 212, 0.2), 0 0 20px rgba(124, 58, 237, 0.15);
+}

@@ -1,23 +1,59 @@
 /* ==========================================================================
-   Campus Connect - Shared Navigation Engine (navigation.js)
+   Campus Connect - High-Speed Shared Navigation Engine (navigation.js)
    ========================================================================== */
 
 let lastScrollY = window.scrollY;
 let isHeaderHidden = false;
+const prefetchedUrls = new Set();
+
+/* ---------- HIGH-SPEED LINK PREFETCHER ---------- */
+function prefetchUrl(url) {
+  if (!url || prefetchedUrls.has(url)) return;
+  if (url.startsWith('#') || url.startsWith('javascript:') || url.startsWith('http') || url.startsWith('mailto:') || url.startsWith('tel:')) return;
+
+  prefetchedUrls.add(url);
+
+  // Use <link rel="prefetch"> for browser cache warming
+  try {
+    const link = document.createElement('link');
+    link.rel = 'prefetch';
+    link.href = url;
+    link.as = 'document';
+    document.head.appendChild(link);
+  } catch (err) {
+    // Fallback silent fetch
+    fetch(url, { priority: 'low' }).catch(() => {});
+  }
+}
+
+function initInstantPrefetch() {
+  const links = document.querySelectorAll('a[href$=".html"], a[href="index.html"], .nav-route-btn');
+  links.forEach(anchor => {
+    const href = anchor.getAttribute('href');
+    if (!href) return;
+
+    // Prefetch on hover, touchstart, or focus for an instant headstart
+    anchor.addEventListener('pointerenter', () => prefetchUrl(href), { passive: true, once: true });
+    anchor.addEventListener('touchstart', () => prefetchUrl(href), { passive: true, once: true });
+    anchor.addEventListener('focus', () => prefetchUrl(href), { passive: true, once: true });
+  });
+}
 
 /* ---------- DYNAMIC NAVBAR SCROLL PHYSICS ---------- */
 function initDynamicNavbarAndScroll() {
   const header = document.getElementById('main-header');
   if (!header) return;
 
+  let ticking = false;
+
   function handleScroll() {
     const currentScrollY = window.scrollY;
     const scrollDelta = currentScrollY - lastScrollY;
 
-    if (scrollDelta > 8 && currentScrollY > 80 && !isHeaderHidden) {
+    if (scrollDelta > 8 && currentScrollY > 90 && !isHeaderHidden) {
       header.classList.add('navbar-hidden');
       isHeaderHidden = true;
-    } else if ((scrollDelta < -8 || currentScrollY <= 40) && isHeaderHidden) {
+    } else if ((scrollDelta < -6 || currentScrollY <= 40) && isHeaderHidden) {
       header.classList.remove('navbar-hidden');
       isHeaderHidden = false;
     }
@@ -29,9 +65,15 @@ function initDynamicNavbarAndScroll() {
     }
 
     lastScrollY = Math.max(0, currentScrollY);
+    ticking = false;
   }
 
-  window.addEventListener('scroll', handleScroll, { passive: true });
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(handleScroll);
+      ticking = true;
+    }
+  }, { passive: true });
 }
 
 /* ---------- ACTIVE NAVBAR STATE DETECTION ---------- */
@@ -80,7 +122,7 @@ function syncNavProfile() {
 
   if (!chip) return;
 
-  if (currentSession) {
+  if (typeof currentSession !== 'undefined' && currentSession) {
     if (navAuthSlot) navAuthSlot.classList.add('hidden');
     chip.classList.remove('hidden');
     chip.classList.add('flex');
@@ -121,7 +163,7 @@ function goToAuth(preselectRole = 'student') {
 }
 
 function openDashboardView() {
-  if (!currentSession) {
+  if (typeof currentSession === 'undefined' || !currentSession) {
     window.location.href = 'login.html';
     return;
   }
@@ -133,35 +175,17 @@ function toggleMobileMenu() {
   if (menu) menu.classList.toggle('hidden');
 }
 
+/* ---------- INSTANT ZERO-FLASH PAGE TRANSITIONS ---------- */
 function initPageTransitions() {
   if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
   }
-  window.scrollTo(0, 0);
-
-  document.querySelectorAll('a[href$=".html"], a[href="index.html"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      const targetUrl = this.getAttribute('href');
-      if (!targetUrl || targetUrl.startsWith('#') || targetUrl.startsWith('javascript:')) return;
-      if (this.target === '_blank') return;
-
-      const mainEl = document.querySelector('main');
-      if (mainEl) {
-        e.preventDefault();
-        mainEl.style.transition = 'opacity 0.22s ease, transform 0.22s ease';
-        mainEl.style.opacity = '0';
-        mainEl.style.transform = 'translateY(-6px)';
-        setTimeout(() => {
-          window.location.href = targetUrl;
-        }, 220);
-      }
-    });
-  });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   initDynamicNavbarAndScroll();
   initActiveNav();
   syncNavProfile();
+  initInstantPrefetch();
   initPageTransitions();
 });
