@@ -1,2 +1,29 @@
-/* Portal specific styles */
-.upload-dropzone { border: 2px dashed #cbd5e1; border-radius: 1rem; }
+/* ==========================================================================
+   Campus Connect - Aurora 4-Step Portal Styles (portal.css)
+   ========================================================================== */
+
+.upload-dropzone {
+  border: 2px dashed #26304A;
+  border-radius: 1rem;
+  transition: all 0.25s ease;
+}
+
+.upload-dropzone:hover {
+  border-color: #7C3AED;
+  background-color: rgba(124, 58, 237, 0.06);
+}
+
+.step-card-3d {
+  position: relative;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+}
+
+.step-card-3d:hover {
+  transform: translateY(-6px) translateZ(10px);
+  box-shadow: 0 20px 40px -12px rgba(124, 58, 237, 0.3), 0 0 20px rgba(6, 182, 212, 0.2);
+}
+
+.step-badge-glow {
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.4), 0 0 10px rgba(6, 182, 212, 0.3);
+}

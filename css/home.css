@@ -1,2 +1,36 @@
-/* Home specific styles */
-.flow-monitor-card { backdrop-filter: blur(20px); }
+/* ==========================================================================
+   Campus Connect - Aurora Home Landing Page Styles (home.css)
+   ========================================================================== */
+
+.flow-monitor-card {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.hero-gradient-orb {
+  filter: blur(120px);
+  pointer-events: none;
+}
+
+.stat-card-3d {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+}
+
+.stat-card-3d:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 20px 35px -10px rgba(124, 58, 237, 0.25), 0 0 20px rgba(6, 182, 212, 0.15);
+}
+
+.feature-grid-card {
+  position: relative;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.feature-grid-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(124, 58, 237, 0.45);
+  box-shadow: 0 15px 30px -10px rgba(6, 182, 212, 0.2);
+}

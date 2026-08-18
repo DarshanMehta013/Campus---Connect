@@ -42,6 +42,9 @@ function showRoleView(viewId) {
   if (typeof initScrollObserver === 'function') {
     initScrollObserver();
   }
+  if (typeof init3DTiltCards === 'function') {
+    init3DTiltCards();
+  }
 }
 
 function renderByRole() {

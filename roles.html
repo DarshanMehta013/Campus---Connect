@@ -1,12 +1,42 @@
 <!DOCTYPE html>
-<html lang="en" class="light scroll-smooth">
+<html lang="en" class="scroll-smooth">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Role Workspaces & Dashboards - Campus Connect</title>
 
-  <!-- Tailwind CSS CDN & Config -->
+  <!-- Instant Zero-Flash Theme Initialization Script (Executes before paint) -->
+  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('campus_connect_theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var isDark = saved === 'dark' || (!saved && prefersDark);
+        if (isDark) {
+          document.documentElement.classList.add('dark');
+          document.documentElement.classList.remove('light');
+          document.documentElement.style.backgroundColor = '#070A13';
+          document.documentElement.style.colorScheme = 'dark';
+        } else {
+          document.documentElement.classList.add('light');
+          document.documentElement.classList.remove('dark');
+          document.documentElement.style.backgroundColor = '#f8fafc';
+          document.documentElement.style.colorScheme = 'light';
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Critical Asset Preloads & Prefetches -->
+  <link rel="preload" href="assets/logo/logo.png" as="image">
+  <link rel="preload" href="bg.png" as="image">
+  <link rel="prefetch" href="index.html">
+  <link rel="prefetch" href="portal.html">
+  <link rel="prefetch" href="feed.html">
+  <link rel="prefetch" href="login.html">
+
+  <!-- Tailwind CSS CDN & Config with Aurora Palette -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -15,10 +45,10 @@
       theme: {
         extend: {
           colors: {
-            brand: { blue: '#2563eb', cyan: '#06b6d4', emerald: '#059669', violet: '#7c3aed', amber: '#d97706' }
+            brand: { purple: '#7C3AED', cyan: '#06B6D4', accent: '#22D3EE', highlight: '#A78BFA', dark: '#070A13', surface: '#151B32', border: '#26304A' }
           },
           fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Plus Jakarta Sans', 'sans-serif'] },
-          boxShadow: { soft: '0 8px 30px rgba(0,0,0,0.06)', softDark: '0 8px 30px rgba(0,0,0,0.3)', glow: '0 0 25px rgba(37,99,235,0.2)' }
+          boxShadow: { soft: '0 8px 30px rgba(0,0,0,0.06)', softDark: '0 8px 30px rgba(7,10,19,0.5)', aurora: '0 0 25px rgba(124,58,237,0.25), 0 0 40px rgba(6,182,212,0.15)' }
         }
       }
     }
@@ -37,26 +67,27 @@
 </head>
 
 <body
-  class="bg-[#f8fafc] dark:bg-[#070709] text-slate-900 dark:text-zinc-100 min-h-screen flex flex-col transition-colors duration-500 selection:bg-blue-600 selection:text-white relative">
+  class="bg-[#f8fafc] dark:bg-[#070A13] text-slate-900 dark:text-[#F9FAFB] min-h-screen flex flex-col transition-colors duration-300 selection:bg-[#7C3AED] selection:text-white relative">
 
-  <!-- Background ambient blur decoration -->
-  <!-- Background ambient blur decoration -->
-  <div id="bc-bg" class="fixed inset-0 z-0 pointer-events-none">
+  <!-- Ambient Aurora Space Background -->
+  <div id="bc-bg" class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
     <div
-      class="absolute inset-0 bg-[url('bg.png')] bg-cover bg-center bg-no-repeat bg-fixed opacity-30 dark:opacity-20">
+      class="absolute inset-0 bg-[url('bg.png')] bg-cover bg-center bg-no-repeat bg-fixed opacity-20 dark:opacity-10">
     </div>
     <div
-      class="absolute -top-32 -left-32 w-[700px] h-[700px] bg-blue-600/15 dark:bg-blue-600/15 blur-[140px] rounded-full animate-glow">
+      class="absolute -top-40 -left-40 w-[800px] h-[800px] bg-[#7C3AED]/20 dark:bg-[#7C3AED]/25 blur-[150px] rounded-full animate-aurora-1">
     </div>
     <div
-      class="absolute -bottom-32 -right-32 w-[700px] h-[700px] bg-violet-600/15 dark:bg-violet-600/15 blur-[140px] rounded-full animate-glow"
-      style="animation-delay: 2s;"></div>
+      class="absolute -bottom-40 -right-40 w-[800px] h-[800px] bg-[#06B6D4]/20 dark:bg-[#06B6D4]/25 blur-[150px] rounded-full animate-aurora-2">
+    </div>
+    <div
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#22D3EE]/10 dark:bg-[#22D3EE]/12 blur-[160px] rounded-full">
+    </div>
   </div>
 
   <!-- Header Navigation -->
-  <!-- Header Navigation -->
   <header id="main-header"
-    class="sticky top-0 z-40 bg-white/85 dark:bg-zinc-950/80 backdrop-blur-2xl border-b border-slate-200/80 dark:border-zinc-800/80 transition-colors">
+    class="sticky top-0 z-40 bg-white/85 dark:bg-[#070A13]/85 backdrop-blur-2xl border-b border-slate-200/80 dark:border-[#26304A] transition-colors">
     <div class="max-w-[1440px] mx-auto px-4 lg:px-8 h-[72px] flex items-center justify-between">
       <!-- Brand Logo -->
       <a href="index.html" class="flex items-center gap-3 cursor-pointer group">
@@ -709,9 +740,36 @@
             oninput="runKeywordDetect()" rows="2" placeholder="Describe the physical condition..."
             class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></textarea></div>
 
+        <div class="grid grid-cols-2 gap-3">
+          <div class="border border-dashed rounded-xl p-3 bg-slate-50 dark:bg-zinc-800 text-center">
+            <label class="text-xs font-semibold block mb-1">Attach Photo Proof</label>
+            <div id="imgPlaceholderBtn">
+              <input type="file" accept="image/*" onchange="handleImgUpload(this)" class="text-xs">
+            </div>
+            <div id="imgUploadPreview" class="hidden mt-2">
+              <img id="imgPreviewTag" class="h-20 w-full object-cover rounded-lg">
+            </div>
+          </div>
+          <div class="border border-dashed rounded-xl p-3 bg-slate-50 dark:bg-zinc-800 text-center">
+            <label class="text-xs font-semibold block mb-1">Attach Video Proof</label>
+            <div id="videoPlaceholderBtn">
+              <input type="file" accept="video/*" onchange="handleVideoUpload(this)" class="text-xs">
+            </div>
+            <div id="videoUploadPreview" class="hidden mt-2">
+              <video id="videoPreviewTag" class="h-20 w-full object-cover rounded-lg" controls></video>
+            </div>
+          </div>
+        </div>
 
-        <!-- Admin Route and Verification Modal -->
-        <div id="modalAdminRoute" class="fixed inset-0 hidden z-50">
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-lg btn-3d">
+          Submit Institutional Complaint
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Route and Verification Modal -->
+  <div id="modalAdminRoute" class="fixed inset-0 hidden z-50">
           <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeAdminRouteModal()"></div>
           <div class="relative max-w-md mx-auto mt-20 bg-white dark:bg-zinc-900 rounded-[24px] border p-6 shadow-2xl">
             <h3 class="font-bold font-display text-lg">Inbound Verifier & Route Dispatcher</h3>

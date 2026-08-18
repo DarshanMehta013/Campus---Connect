@@ -454,9 +454,20 @@ function closeLightbox() {
 }
 
 // Global Theme Toggle
-function toggleTheme() {
+function applyTheme(theme) {
   const html = document.documentElement;
-  const isDark = html.classList.toggle('dark');
+  const isDark = theme === 'dark';
+  if (isDark) {
+    html.classList.add('dark');
+    html.classList.remove('light');
+    html.style.backgroundColor = '#070A13';
+    html.style.colorScheme = 'dark';
+  } else {
+    html.classList.remove('dark');
+    html.classList.add('light');
+    html.style.backgroundColor = '#f8fafc';
+    html.style.colorScheme = 'light';
+  }
   localStorage.setItem('campus_connect_theme', isDark ? 'dark' : 'light');
   const icon = document.getElementById('themeIcon');
   if (icon) {
@@ -464,14 +475,17 @@ function toggleTheme() {
   }
 }
 
+function toggleTheme() {
+  const html = document.documentElement;
+  const isCurrentlyDark = html.classList.contains('dark');
+  applyTheme(isCurrentlyDark ? 'light' : 'dark');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const savedTheme = localStorage.getItem('campus_connect_theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-    document.documentElement.classList.add('dark');
-    const icon = document.getElementById('themeIcon');
-    if (icon) icon.className = 'fa-solid fa-sun';
-  }
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const isDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+  applyTheme(isDark ? 'dark' : 'light');
 
   if (currentSession) {
     runSessionTimer();
