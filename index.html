@@ -253,10 +253,100 @@
             Smart Campus Governance Portal v3.0
           </div>
 
-          <h1
+          <h1 id="heroTitle"
             class="font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.08] text-slate-900 dark:text-white">
-            Automated Campus Issue Dispatch & <span class="gradient-text">Resolution Portal</span>
+            Automated Campus Issue Dispatch & Resolution Portal
+            <span class="gradient-text"></span>
           </h1>
+
+          <!-- Per-character text animation (Motion-Primitives style, word-wrap safe) -->
+          <style>
+            #heroTitle .hero-word {
+              display: inline;
+              white-space: nowrap;
+            }
+
+            #heroTitle .hero-char {
+              display: inline-block;
+              opacity: 0;
+              filter: blur(4px);
+              transform: translateY(6px);
+              animation: heroCharFade 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+              animation-delay: var(--d);
+            }
+
+            @keyframes heroCharFade {
+              to {
+                opacity: 1;
+                filter: blur(0px);
+                transform: translateY(0);
+              }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+              #heroTitle .hero-char {
+                animation: none !important;
+                opacity: 1 !important;
+                filter: none !important;
+                transform: none !important;
+              }
+            }
+          </style>
+          <script>
+              (function () {
+                var STAGGER = 22; // ms between each character
+                var h = document.getElementById('heroTitle');
+                if (!h) return;
+
+                var idx = 0;
+                var frag = document.createDocumentFragment();
+
+                // Build animated word spans from a text string, appending to `target`
+                function buildWords(text, target) {
+                  // Split by spaces, preserving them as delimiters
+                  var words = text.split(/( +)/);
+                  words.forEach(function (seg) {
+                    if (!seg) return;
+                    // If it's whitespace, emit a plain text node (allows natural line wrapping)
+                    if (/^ +$/.test(seg)) {
+                      target.appendChild(document.createTextNode(seg));
+                      idx += seg.length;
+                      return;
+                    }
+                    // It's a word — wrap characters in a nowrap word-span
+                    var wordSpan = document.createElement('span');
+                    wordSpan.className = 'hero-word';
+                    for (var i = 0; i < seg.length; i++) {
+                      var charSpan = document.createElement('span');
+                      charSpan.className = 'hero-char';
+                      charSpan.textContent = seg[i];
+                      charSpan.style.setProperty('--d', (idx * STAGGER) + 'ms');
+                      idx++;
+                      wordSpan.appendChild(charSpan);
+                    }
+                    target.appendChild(wordSpan);
+                  });
+                }
+
+                var nodes = Array.prototype.slice.call(h.childNodes);
+                nodes.forEach(function (node) {
+                  if (node.nodeType === 3) {
+                    // Text node — clean up newlines/extra whitespace to single spaces
+                    var text = node.textContent.replace(/\s+/g, ' ');
+                    buildWords(text, frag);
+                  } else if (node.nodeType === 1) {
+                    // Element node (e.g. gradient-text span) — clone and fill with animated chars
+                    var wrapper = node.cloneNode(false);
+                    var text = node.textContent.replace(/\s+/g, ' ');
+                    buildWords(text, wrapper);
+                    frag.appendChild(wrapper);
+                  }
+                });
+
+                h.textContent = '';
+                h.appendChild(frag);
+              })();
+          </script>
 
           <p class="text-slate-600 dark:text-zinc-300 text-lg sm:text-xl leading-relaxed font-medium max-w-2xl">
             Eliminate delayed campus repairs with an end-to-end multi-role workflow. Student complaint scanner

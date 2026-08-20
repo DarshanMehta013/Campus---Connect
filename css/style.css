@@ -425,6 +425,85 @@ body {
   box-shadow: inset 0 0 0 1px rgba(34, 211, 238, 0.4), 0 0 15px rgba(6, 182, 212, 0.2);
 }
 
+/* ---- Nav Button Ripple-Fill Hover Effect ---- */
+.nav-route-btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transform: scale(1);
+  box-shadow: none;
+  transition: color 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+              transform 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.nav-route-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.18) 0%, rgba(6, 182, 212, 0.18) 100%);
+  transform: translate(-50%, -50%) scale(0);
+  z-index: -1;
+  pointer-events: none;
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.nav-route-btn:hover::before {
+  transform: translate(-50%, -50%) scale(3);
+}
+
+.nav-route-btn:hover {
+  color: #7C3AED !important;
+  transform: scale(1.05);
+  box-shadow: 0 0 16px rgba(124, 58, 237, 0.18), 0 0 6px rgba(6, 182, 212, 0.12);
+}
+
+.nav-route-btn:active {
+  transform: scale(1);
+}
+
+/* Dark mode nav hover */
+.dark .nav-route-btn::before {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.3) 0%, rgba(6, 182, 212, 0.25) 100%);
+}
+
+.dark .nav-route-btn:hover {
+  color: #22D3EE !important;
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.2), 0 0 8px rgba(124, 58, 237, 0.15);
+}
+
+/* Active pill hover — enhance the existing gradient, don't conflict */
+.nav-route-btn.nav-active-pill::before {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.25) 0%, rgba(6, 182, 212, 0.25) 100%);
+}
+
+.dark .nav-route-btn.nav-active-pill::before {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.35) 0%, rgba(6, 182, 212, 0.3) 100%);
+}
+
+/* Accessibility: disable animation for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .nav-route-btn {
+    transition: none !important;
+    transform: none !important;
+  }
+  .nav-route-btn::before {
+    transition: none !important;
+    transform: translate(-50%, -50%) scale(0) !important;
+  }
+  .nav-route-btn:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  .nav-route-btn:hover::before {
+    transform: translate(-50%, -50%) scale(0) !important;
+  }
+}
+
 /* Dynamic Header Hide/Show Physics */
 #main-header {
   transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
