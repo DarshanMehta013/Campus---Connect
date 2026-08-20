@@ -207,8 +207,7 @@
         class="mobile-nav-btn block px-4 py-2.5 rounded-xl text-slate-700 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800/60 font-semibold text-sm">Public
         Feed</a>
       <a href="login.html" id="mob-nav-login"
-        class="mobile-nav-btn block px-4 py-2.5 rounded-xl text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/40 font-bold text-sm">Portal
-        Login</a>
+        class="mobile-nav-btn block px-4 py-2.5 rounded-xl text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/40 font-bold text-sm">Portal Login</a>
     </div>
   </header>
 
@@ -353,9 +352,9 @@
         </div>
       </div>
 
-      <!-- 4-STEP RESOLUTION MATRIX DIAGRAM -->
-      <div </section>
-        <section id="view-student" class="hidden space-y-6">
+    </section>
+
+    <section id="view-student" class="hidden space-y-6">
           <div class="grid lg:grid-cols-[280px_1fr] gap-6">
             <!-- Left Navigation Sticky Pane -->
             <div
@@ -419,8 +418,7 @@
               <h2 class="font-display font-bold text-xl flex items-center gap-2"><i
                   class="fa-solid fa-school text-blue-600"></i> <span id="facDeptHeader">Department Faculty Panel</span>
               </h2>
-              <p class="text-sm text-slate-500">Monitor department tickets, assign targeted technicians with deadlines,
-                and verify finalized proof photos.</p>
+              <p class="text-sm text-slate-500">Audit and verify completed work orders submitted by specialized technicians before final resolution clearance.</p>
             </div>
             <div class="flex flex-wrap items-center gap-3">
               <input id="facSearch" oninput="renderFaculty()" placeholder="Search dept issues..."
@@ -438,8 +436,7 @@
             <div>
               <h2 class="font-display font-bold text-xl flex items-center gap-2"><i
                   class="fa-solid fa-screwdriver-wrench text-violet-600"></i> Technician Action Queue</h2>
-              <p class="text-sm text-slate-500">Receive forwarded work orders, accept or decline with comments, track
-                deadlines, and submit tubelight proof.</p>
+              <p class="text-sm text-slate-500">Receive admin-verified work orders, accept or reject, execute repairs, and submit photographic completion proof for faculty verification.</p>
             </div>
             <div id="techCountBadge"
               class="px-3 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-black text-sm font-bold">0
@@ -604,8 +601,8 @@
       </div>
 
       <div class="flex flex-wrap items-center gap-4 sm:gap-6 font-medium">
-        <button href="portal.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">How It Works</button>
-        <button href="roles.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Portals</button>
+        <a href="portal.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">How It Works</a>
+        <a href="roles.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Portals</a>
 
         <!-- Social Media Buttons -->
         <div
@@ -770,186 +767,214 @@
 
   <!-- Admin Route and Verification Modal -->
   <div id="modalAdminRoute" class="fixed inset-0 hidden z-50">
-          <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeAdminRouteModal()"></div>
-          <div class="relative max-w-md mx-auto mt-20 bg-white dark:bg-zinc-900 rounded-[24px] border p-6 shadow-2xl">
-            <h3 class="font-bold font-display text-lg">Inbound Verifier & Route Dispatcher</h3>
-            <p id="adminVerifyTitle" class="text-xs text-slate-500 mt-1"></p>
-
-            <form onsubmit="confirmAdminDispatch(event)" class="space-y-4 mt-4">
-              <input type="hidden" id="adminVerifyId">
-              <div>
-                <label class="text-xs font-semibold">Dispatch to Academic Department</label>
-                <select id="adminRouteDept"
-                  class="mt-1.5 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm">
-                  <option value="Computer Department">Computer Department Faculty Office</option>
-                  <option value="Electrical Department">Electrical Department Faculty Office</option>
-                  <option value="Mechanical Department">Mechanical Department Faculty Office</option>
-                  <option value="Civil Department">Civil Department Faculty Office</option>
-                </select>
-              </div>
-              <div class="flex gap-2">
-                <button type="button" onclick="adminRejectTicket()"
-                  class="flex-1 py-3 rounded-xl bg-red-50 text-red-600 font-bold border border-red-200 text-sm">Reject /
-                  Close Fraud</button>
-                <button type="submit" class="flex-[2] py-3 rounded-xl bg-blue-600 text-white font-bold text-sm">Verify &
-                  Forward</button>
-              </div>
-            </form>
-          </div>
+    <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeAdminRouteModal()"></div>
+    <div class="relative max-w-md mx-auto mt-20 bg-white dark:bg-zinc-900 rounded-[24px] border p-6 shadow-2xl">
+      <div class="flex justify-between items-start">
+        <div>
+          <h3 class="font-bold font-display text-lg">Inbound Verifier & Technician Dispatcher</h3>
+          <p id="adminVerifyTitle" class="text-xs text-slate-500 mt-1"></p>
         </div>
+        <button type="button" onclick="closeAdminRouteModal()" class="h-8 w-8 rounded-full bg-slate-100 dark:bg-zinc-800 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+      </div>
 
-
-        <!-- Faculty Assignment to Technician Modal -->
-        <div id="modalFacultyForward" class="fixed inset-0 hidden z-50">
-          <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeFacultyForwardModal()"></div>
-          <div class="relative max-w-md mx-auto mt-20 bg-white dark:bg-zinc-900 rounded-[24px] border p-6 shadow-2xl">
-            <h3 class="font-bold font-display text-lg">Forward Work Order to Technician</h3>
-            <p id="forwardVerifyLabel" class="text-xs text-slate-500 mt-1"></p>
-
-            <form onsubmit="confirmFacultyForward(event)" class="space-y-4 mt-4">
-              <input type="hidden" id="forwardVerifyId">
-              <div>
-                <label class="text-xs font-semibold">Select Available Specialized Technician</label>
-                <select id="forwardSelectedTech"
-                  class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></select>
-              </div>
-              <div>
-                <label class="text-xs font-semibold">Set Completion Deadline Date</label>
-                <input type="date" id="forwardDeadline" required
-                  class="mt-1.5 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm font-medium">
-              </div>
-              <button
-                class="w-full py-3 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-black font-bold text-sm shadow-md">Dispatch
-                to Technician Agent</button>
-            </form>
-          </div>
+      <form onsubmit="confirmAdminDispatch(event)" class="space-y-4 mt-4">
+        <input type="hidden" id="adminVerifyId">
+        <div>
+          <label class="text-xs font-semibold">Category / Academic Department</label>
+          <select id="adminRouteDept" onchange="populateAdminTechOptions()"
+            class="mt-1.5 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm">
+            <option value="Computer Department">Computer Department</option>
+            <option value="Electrical Department">Electrical Department</option>
+            <option value="Mechanical Department">Mechanical Department</option>
+            <option value="Civil Department">Civil Department</option>
+          </select>
         </div>
-
-
-        <!-- Technician Decline Dialogue -->
-        <div id="modalDeclineTech" class="fixed inset-0 hidden z-50">
-          <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeDeclineTechModal()"></div>
-          <div class="relative max-w-sm mx-auto mt-24 bg-white dark:bg-zinc-900 rounded-[24px] border p-6 shadow-2xl">
-            <h3 class="font-bold text-lg font-display">Decline Work Order Assignment</h3>
-            <form onsubmit="confirmDeclineTech(event)" class="space-y-4 mt-4">
-              <input type="hidden" id="declineTechId">
-              <div>
-                <label class="text-xs font-semibold">State Reason for Rejection</label>
-                <textarea id="declineTechReason" required placeholder="Describe material shortage, double booking..."
-                  rows="3"
-                  class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></textarea>
-              </div>
-              <div class="flex gap-2">
-                <button type="button" onclick="closeDeclineTechModal()"
-                  class="flex-1 py-3 rounded-xl bg-slate-100 dark:bg-zinc-800 font-bold text-sm">Cancel</button>
-                <button type="submit" class="flex-1 py-3 rounded-xl bg-red-600 text-white font-bold text-sm">Confirm
-                  Decline</button>
-              </div>
-            </form>
-          </div>
+        <div>
+          <label class="text-xs font-semibold">Assign Specialized Technician</label>
+          <select id="adminRouteTech" required
+            class="mt-1.5 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></select>
         </div>
+        <div>
+          <label class="text-xs font-semibold">Set Completion Deadline Date</label>
+          <input type="date" id="adminRouteDeadline" required
+            class="mt-1.5 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm font-medium">
+        </div>
+        <div class="flex gap-2">
+          <button type="button" onclick="adminRejectTicket()"
+            class="flex-1 py-3 rounded-xl bg-red-50 text-red-600 font-bold border border-red-200 text-sm">Reject / Close</button>
+          <button type="submit" class="flex-[2] py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md">Verify & Dispatch</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
 
-        <!-- Technician Complete Task Modal -->
-        <div id="modalCompleteTech" class="fixed inset-0 hidden z-50 overflow-y-auto">
-          <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeCompleteTechModal()"></div>
-          <div
-            class="relative max-w-md mx-auto my-20 bg-white dark:bg-zinc-900 rounded-[28px] border shadow-2xl overflow-hidden">
-            <div class="p-6 border-b flex justify-between items-center">
-              <h3 class="font-bold text-lg font-display">Mark Task Complete & Submit Tubelight Proof</h3>
-              <button onclick="closeCompleteTechModal()"
-                class="h-8 w-8 rounded-full bg-slate-100 dark:bg-zinc-800 flex items-center justify-center"><i
-                  class="fa-solid fa-xmark"></i></button>
+  <!-- Faculty Assignment to Technician Modal -->
+  <div id="modalFacultyForward" class="fixed inset-0 hidden z-50">
+    <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeFacultyForwardModal()"></div>
+    <div class="relative max-w-md mx-auto mt-20 bg-white dark:bg-zinc-900 rounded-[24px] border p-6 shadow-2xl">
+      <div class="flex justify-between items-start">
+        <div>
+          <h3 class="font-bold font-display text-lg">Forward Work Order to Technician</h3>
+          <p id="forwardVerifyLabel" class="text-xs text-slate-500 mt-1"></p>
+        </div>
+        <button type="button" onclick="closeFacultyForwardModal()" class="h-8 w-8 rounded-full bg-slate-100 dark:bg-zinc-800 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <form onsubmit="confirmFacultyForward(event)" class="space-y-4 mt-4">
+        <input type="hidden" id="forwardVerifyId">
+        <div>
+          <label class="text-xs font-semibold">Select Available Specialized Technician</label>
+          <select id="forwardSelectedTech"
+            class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></select>
+        </div>
+        <div>
+          <label class="text-xs font-semibold">Set Completion Deadline Date</label>
+          <input type="date" id="forwardDeadline" required
+            class="mt-1.5 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm font-medium">
+        </div>
+        <div class="flex gap-2">
+          <button type="button" onclick="closeFacultyForwardModal()" class="flex-1 py-3 rounded-xl bg-slate-100 dark:bg-zinc-800 font-bold text-sm">Cancel</button>
+          <button type="submit" class="flex-[2] py-3 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-black font-bold text-sm shadow-md">Dispatch to Technician Agent</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Technician Decline Dialogue -->
+  <div id="modalDeclineTech" class="fixed inset-0 hidden z-50">
+    <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeDeclineTechModal()"></div>
+    <div class="relative max-w-sm mx-auto mt-24 bg-white dark:bg-zinc-900 rounded-[24px] border p-6 shadow-2xl">
+      <h3 class="font-bold text-lg font-display">Decline Work Order Assignment</h3>
+      <form onsubmit="confirmDeclineTech(event)" class="space-y-4 mt-4">
+        <input type="hidden" id="declineTechId">
+        <div>
+          <label class="text-xs font-semibold">State Reason for Rejection</label>
+          <textarea id="declineTechReason" required placeholder="Describe material shortage, double booking..."
+            rows="3"
+            class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></textarea>
+        </div>
+        <div class="flex gap-2">
+          <button type="button" onclick="closeDeclineTechModal()"
+            class="flex-1 py-3 rounded-xl bg-slate-100 dark:bg-zinc-800 font-bold text-sm">Cancel</button>
+          <button type="submit" class="flex-1 py-3 rounded-xl bg-red-600 text-white font-bold text-sm">Confirm
+            Decline</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Technician Complete Task Modal -->
+  <div id="modalCompleteTech" class="fixed inset-0 hidden z-50 overflow-y-auto">
+    <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeCompleteTechModal()"></div>
+    <div
+      class="relative max-w-md mx-auto my-20 bg-white dark:bg-zinc-900 rounded-[28px] border shadow-2xl overflow-hidden">
+      <div class="p-6 border-b flex justify-between items-center">
+        <h3 class="font-bold text-lg font-display">Mark Task Complete & Submit Tubelight Proof</h3>
+        <button onclick="closeCompleteTechModal()"
+          class="h-8 w-8 rounded-full bg-slate-100 dark:bg-zinc-800 flex items-center justify-center"><i
+            class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form onsubmit="confirmCompleteTech(event)" class="p-6 space-y-4">
+        <input type="hidden" id="completeTechId">
+        <div class="border-2 border-dashed rounded-2xl p-4 text-center bg-slate-50/50 dark:bg-zinc-800/30">
+          <input type="file" id="proofImgInput" accept="image/*" onchange="handleProofPhotoUpload(this)"
+            class="hidden">
+          <div id="proofPlaceholderBtn">
+            <i class="fa-solid fa-camera text-xl text-slate-400"></i>
+            <div class="text-xs mt-1">
+              <button type="button" onclick="document.getElementById('proofImgInput').click()"
+                class="font-bold text-blue-600 hover:underline">Upload completion image *</button>
             </div>
-            <form onsubmit="confirmCompleteTech(event)" class="p-6 space-y-4">
-              <input type="hidden" id="completeTechId">
-              <div class="border-2 border-dashed rounded-2xl p-4 text-center bg-slate-50/50 dark:bg-zinc-800/30">
-                <input type="file" id="proofImgInput" accept="image/*" onchange="handleProofPhotoUpload(this)"
-                  class="hidden">
-                <div id="proofPlaceholderBtn">
-                  <i class="fa-solid fa-camera text-xl text-slate-400"></i>
-                  <div class="text-xs mt-1">
-                    <button type="button" onclick="document.getElementById('proofImgInput').click()"
-                      class="font-bold text-blue-600 hover:underline">Upload completion image *</button>
-                  </div>
-                </div>
-                <div id="proofImgPreview" class="hidden"><img id="proofPreviewTag"
-                    class="mx-auto max-h-32 rounded-xl border"></div>
-              </div>
-              <div>
-                <label class="text-xs font-semibold">Resolution Comments</label>
-                <textarea id="completeRemark" required
-                  placeholder="Describe details (e.g. Replaced 40W white tubelight block)" rows="3"
-                  class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></textarea>
-              </div>
-              <button class="w-full py-3 rounded-xl bg-emerald-600 text-white font-bold text-sm shadow-md">Submit for
-                Faculty Inspection</button>
-            </form>
           </div>
+          <div id="proofImgPreview" class="hidden"><img id="proofPreviewTag"
+              class="mx-auto max-h-32 rounded-xl border"></div>
         </div>
-
-
-        <!-- Faculty Inspect and QA Modal -->
-        <div id="modalFacultyQa" class="fixed inset-0 hidden z-50">
-          <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeFacultyQaModal()"></div>
-          <div class="relative max-w-md mx-auto mt-20 bg-white dark:bg-zinc-900 rounded-[24px] border p-6 shadow-2xl">
-            <h3 class="font-bold font-display text-lg">Department QA & Inspection</h3>
-            <p class="text-xs text-slate-500 mt-1">Review resolution proof, and confirm if perfectly completed.</p>
-            <form onsubmit="confirmFacultyQa(event)" class="space-y-4 mt-4">
-              <input type="hidden" id="qaVerifyId">
-              <div class="grid grid-cols-2 gap-2">
-                <button type="button" id="btnQaApprove" onclick="setFacultyQaApproval(true)"
-                  class="py-3 rounded-xl bg-blue-600 text-white font-bold text-sm border-2 border-blue-600"><i
-                    class="fa-solid fa-circle-check mr-1"></i> Approve Perfect</button>
-                <button type="button" id="btnQaReject" onclick="setFacultyQaApproval(false)"
-                  class="py-3 rounded-xl bg-white dark:bg-zinc-800 border-2 text-sm font-semibold"><i
-                    class="fa-solid fa-rotate-left mr-1"></i> Reject & Redo</button>
-              </div>
-              <div>
-                <label class="text-xs font-semibold">Inspector Feedback Comments</label>
-                <textarea id="qaFeedbackComment" required rows="3" placeholder="Enter inspection notes..."
-                  class="mt-1.5 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></textarea>
-              </div>
-              <button
-                class="w-full py-3 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-black font-bold text-sm">Save
-                QA Inspection Status</button>
-            </form>
-          </div>
+        <div>
+          <label class="text-xs font-semibold">Resolution Comments</label>
+          <textarea id="completeRemark" required
+            placeholder="Describe details (e.g. Replaced 40W white tubelight block)" rows="3"
+            class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></textarea>
         </div>
+        <button class="w-full py-3 rounded-xl bg-emerald-600 text-white font-bold text-sm shadow-md">Submit for
+          Faculty Inspection</button>
+      </form>
+    </div>
+  </div>
 
 
-        <!-- Admin Technician Accounts Modal -->
-        <div id="modalStaff" class="fixed inset-0 hidden z-50">
-          <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeStaffModal()"></div>
-          <div class="relative max-w-sm mx-auto mt-20 bg-white dark:bg-zinc-900 rounded-[24px] border p-6 shadow-2xl">
-            <h3 class="font-bold">Register / Modify Technician</h3>
-            <form onsubmit="saveStaff(event)" class="space-y-3 mt-4">
-              <input type="hidden" id="staffEditId">
-              <div><label class="text-xs font-semibold">Technician Name</label><input id="staffName" required
-                  class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></div>
-              <div>
-                <label class="text-xs font-semibold">Specialized Department</label>
-                <select id="staffDept"
-                  class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm">
-                  <option value="Computer Department">Computer Department</option>
-                  <option value="Electrical Department">Electrical Department</option>
-                  <option value="Mechanical Department">Mechanical Department</option>
-                  <option value="Civil Department">Civil Department</option>
-                </select>
-              </div>
-              <div><label class="text-xs font-semibold">Years of Operational Experience</label><input type="number"
-                  id="staffExp" required min="0" max="40"
-                  class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></div>
-              <div><label class="text-xs font-semibold">Account Password</label><input id="staffPassNew" required
-                  class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></div>
-              <div class="flex gap-2 pt-2">
-                <button type="button" onclick="closeStaffModal()"
-                  class="flex-1 py-3 rounded-xl bg-slate-100 dark:bg-zinc-800 font-bold text-sm">Cancel</button>
-                <button class="flex-1 py-3 rounded-xl bg-blue-600 text-white font-bold text-sm">Save Registry</button>
-              </div>
-            </form>
-          </div>
+  <!-- Faculty Inspect and QA Modal -->
+  <div id="modalFacultyQa" class="fixed inset-0 hidden z-50">
+    <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeFacultyQaModal()"></div>
+    <div class="relative max-w-md mx-auto mt-20 bg-white dark:bg-zinc-900 rounded-[24px] border p-6 shadow-2xl">
+      <div class="flex justify-between items-start">
+        <div>
+          <h3 class="font-bold font-display text-lg">Department QA & Inspection</h3>
+          <p class="text-xs text-slate-500 mt-1">Review resolution proof, and confirm if perfectly completed.</p>
         </div>
+        <button type="button" onclick="closeFacultyQaModal()" class="h-8 w-8 rounded-full bg-slate-100 dark:bg-zinc-800 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form onsubmit="confirmFacultyQa(event)" class="space-y-4 mt-4">
+        <input type="hidden" id="qaVerifyId">
+        <div class="grid grid-cols-2 gap-2">
+          <button type="button" id="btnQaApprove" onclick="setFacultyQaApproval(true)"
+            class="py-3 rounded-xl bg-blue-600 text-white font-bold text-sm border-2 border-blue-600"><i
+              class="fa-solid fa-circle-check mr-1"></i> Approve Perfect</button>
+          <button type="button" id="btnQaReject" onclick="setFacultyQaApproval(false)"
+            class="py-3 rounded-xl bg-white dark:bg-zinc-800 border-2 text-sm font-semibold"><i
+              class="fa-solid fa-rotate-left mr-1"></i> Reject & Redo</button>
+        </div>
+        <div>
+          <label class="text-xs font-semibold">Inspector Feedback Comments</label>
+          <textarea id="qaFeedbackComment" required rows="3" placeholder="Enter inspection notes..."
+            class="mt-1.5 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></textarea>
+        </div>
+        <div class="flex gap-2">
+          <button type="button" onclick="closeFacultyQaModal()" class="flex-1 py-3 rounded-xl bg-slate-100 dark:bg-zinc-800 font-bold text-sm">Cancel</button>
+          <button type="submit" class="flex-[2] py-3 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-black font-bold text-sm">Save QA Inspection Status</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Admin Technician Accounts Modal -->
+  <div id="modalStaff" class="fixed inset-0 hidden z-50">
+    <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeStaffModal()"></div>
+    <div class="relative max-w-sm mx-auto mt-20 bg-white dark:bg-zinc-900 rounded-[24px] border p-6 shadow-2xl">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="font-bold">Register / Modify Technician</h3>
+        <button type="button" onclick="closeStaffModal()" class="h-8 w-8 rounded-full bg-slate-100 dark:bg-zinc-800 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form onsubmit="saveStaff(event)" class="space-y-3 mt-4">
+        <input type="hidden" id="staffEditId">
+        <div><label class="text-xs font-semibold">Technician Name</label><input id="staffName" required
+            class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></div>
+        <div>
+          <label class="text-xs font-semibold">Specialized Department</label>
+          <select id="staffDept"
+            class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm">
+            <option value="Computer Department">Computer Department</option>
+            <option value="Electrical Department">Electrical Department</option>
+            <option value="Mechanical Department">Mechanical Department</option>
+            <option value="Civil Department">Civil Department</option>
+          </select>
+        </div>
+        <div><label class="text-xs font-semibold">Years of Operational Experience</label><input type="number"
+            id="staffExp" required min="0" max="40"
+            class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></div>
+        <div><label class="text-xs font-semibold">Account Password</label><input id="staffPassNew" required
+            class="mt-1 w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-800 border text-sm"></div>
+        <div class="flex gap-2 pt-2">
+          <button type="button" onclick="closeStaffModal()"
+            class="flex-1 py-3 rounded-xl bg-slate-100 dark:bg-zinc-800 font-bold text-sm">Cancel</button>
+          <button class="flex-1 py-3 rounded-xl bg-blue-600 text-white font-bold text-sm">Save Registry</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
 
         <!-- Admin Student Profile Override Modal -->

@@ -29,8 +29,13 @@ function loginStudent(e) {
   currentSession = { role: 'student', grNo: u.grNo, name: u.name, dept: u.dept, avatar: u.avatar || null, expiresAt: Date.now() + SESSION_SLA_MS };
   localStorage.setItem('campus_session', JSON.stringify(currentSession));
   toast(`Welcome ${u.name}`);
-  renderByRole();
   runSessionTimer();
+  const params = new URLSearchParams(window.location.search);
+  const action = params.get('action');
+  const actionQuery = action ? `&action=${encodeURIComponent(action)}` : '';
+  setTimeout(() => {
+    window.location.href = `roles.html?role=student${actionQuery}`;
+  }, 400);
 }
 
 function loginFaculty(e) {
@@ -43,8 +48,10 @@ function loginFaculty(e) {
   currentSession = { role: 'faculty', name: dept + ' Faculty', dept: dept, expiresAt: Date.now() + SESSION_SLA_MS };
   localStorage.setItem('campus_session', JSON.stringify(currentSession));
   toast(`Faculty authorized: ${dept}`);
-  renderByRole();
   runSessionTimer();
+  setTimeout(() => {
+    window.location.href = 'roles.html?role=faculty';
+  }, 400);
 }
 
 function loginTechnician(e) {
@@ -55,11 +62,13 @@ function loginTechnician(e) {
   if (!t) return toast('Invalid Technician credentials', 'err');
   if (!t.active) return toast('This technician account has been deactivated.', 'err');
 
-  currentSession = { role: 'technician', techId: t.id, name: t.name, dept: t.dept, expiresAt: Date.now() + SESSION_SLA_MS };
+  currentSession = { role: 'technician', id: t.id, techId: t.id, name: t.name, dept: t.dept, expiresAt: Date.now() + SESSION_SLA_MS };
   localStorage.setItem('campus_session', JSON.stringify(currentSession));
   toast(`Technician session open: ${t.name}`);
-  renderByRole();
   runSessionTimer();
+  setTimeout(() => {
+    window.location.href = 'roles.html?role=technician';
+  }, 400);
 }
 
 function loginAdmin(e) {
@@ -68,11 +77,13 @@ function loginAdmin(e) {
   const pass = document.getElementById('adminPass').value;
   if (user !== 'admin' || pass !== 'admin123') return toast('Admin Credentials Invalid', 'err');
 
-  currentSession = { role: 'admin', name: 'Principal Office Workspace', expiresAt: Date.now() + SESSION_SLA_MS };
+  currentSession = { role: 'admin', username: 'admin', name: 'Principal Office Workspace', expiresAt: Date.now() + SESSION_SLA_MS };
   localStorage.setItem('campus_session', JSON.stringify(currentSession));
   toast('Admin terminal unlocked');
-  renderByRole();
   runSessionTimer();
+  setTimeout(() => {
+    window.location.href = 'roles.html?role=admin';
+  }, 400);
 }
 
 function logout(isAutoExpired = false) {
@@ -112,43 +123,26 @@ function handleRegister(e) {
 }
 
 function showView(viewId) {
-  ['landing', 'auth', 'student', 'faculty', 'technician', 'admin'].forEach(v => {
-    document.getElementById(`view-${v}`).classList.add('hidden');
+  const views = ['landing', 'auth', 'roles', 'student', 'faculty', 'technician', 'admin', 'portal', 'feed'];
+  views.forEach(v => {
+    const el = document.getElementById(`view-${v}`);
+    if (el) {
+      if (v === viewId) {
+        el.classList.remove('hidden');
+      } else {
+        el.classList.add('hidden');
+      }
+    }
   });
-  document.getElementById(`view-${viewId}`).classList.remove('hidden');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  setTimeout(initScrollObserver, 100);
-}
-
-function syncNavProfile() {
-  if (!currentSession) return;
-  const chip = document.getElementById('userChip');
-  chip.classList.remove('hidden');
-  chip.classList.add('flex');
-  document.getElementById('navRightAuthSlot').classList.add('hidden');
-  document.getElementById('notifWrap').classList.remove('hidden');
-
-  document.getElementById('chipName').innerText = currentSession.name;
-  
-  if (currentSession.role === 'student') {
-    document.getElementById('chipRole').innerText = 'Student • GR ' + currentSession.grNo;
-  } else if (currentSession.role === 'technician') {
-    document.getElementById('chipRole').innerText = 'Technician • ' + currentSession.techId;
-  } else if (currentSession.role === 'faculty') {
-    document.getElementById('chipRole').innerText = 'Faculty Advisor';
-  } else {
-    document.getElementById('chipRole').innerText = 'Chief Admin';
+  if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-
-  const avatar = document.getElementById('chipAvatar');
-  if (currentSession.avatar) {
-    avatar.style.backgroundImage = `url('${currentSession.avatar}')`;
-    avatar.innerText = '';
-  } else {
-    avatar.style.backgroundImage = 'none';
-    avatar.innerText = currentSession.name[0].toUpperCase();
+  if (typeof initScrollObserver === 'function') {
+    setTimeout(initScrollObserver, 100);
   }
 }
+
+// Navigation profile synchronization is handled centrally by navigation.js
 
 
 document.addEventListener('DOMContentLoaded', () => {

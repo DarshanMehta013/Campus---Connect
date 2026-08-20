@@ -39,7 +39,7 @@ function renderPublicFeed(filter = 'all') {
           </div>
           <h4 class="font-display font-bold text-lg text-slate-900 dark:text-white pt-1 group-hover:text-blue-600 transition-colors">${c.title}</h4>
         </div>
-        <span class="px-3 py-1 rounded-full text-xs font-bold ${c.status === 'Perfectly Completed' ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' : 'bg-blue-500/15 text-blue-600 dark:text-blue-400'}">${c.status}</span>
+        <span class="px-3 py-1 rounded-full text-xs font-bold ${c.status === 'Completed' || c.status === 'Perfectly Completed' ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' : 'bg-blue-500/15 text-blue-600 dark:text-blue-400'}">${c.status}</span>
       </div>
 
       <p class="text-sm text-slate-600 dark:text-zinc-300 leading-relaxed font-normal depth-layer-1">${c.description || c.desc || ''}</p>
