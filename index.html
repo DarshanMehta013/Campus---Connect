@@ -226,7 +226,8 @@
         <div class="flex items-center gap-3 depth-layer-1">
           <div
             class="h-12 w-12 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-xl pulse-ring">
-            <i class="fa-solid fa-user-check"></i></div>
+            <i class="fa-solid fa-user-check"></i>
+          </div>
           <div>
             <b class="font-display font-bold text-base block">Active User Session Detected</b>
             <span class="text-sm text-slate-600 dark:text-zinc-400">Signed in as <span id="bannerUserName"
@@ -264,7 +265,7 @@
           </p>
 
           <div class="flex flex-wrap items-center gap-4 pt-2">
-            <button onclick="window.location.href='login.html?role=student'"
+            <button onclick="navigateToFileComplaint()"
               class="btn-animate shimmer-btn px-8 py-4 rounded-xl text-white font-bold text-base shadow-xl shadow-blue-600/25 flex items-center gap-2.5 group btn-3d">
               <i class="fa-solid fa-file-circle-plus group-hover:rotate-12 transition-transform text-lg"></i> File
               Campus Complaint
@@ -457,7 +458,7 @@
         <p class="text-base sm:text-lg text-blue-100 max-w-2xl mx-auto font-medium relative z-10 depth-layer-2">Join
           students, faculty advisors, and maintenance staff in maintaining a safe, transparent academic environment.</p>
         <div class="pt-2 relative z-10 depth-layer-3">
-          <button onclick="window.location.href='login.html?role=student'"
+          <button onclick="navigateToFileComplaint()"
             class="btn-animate px-9 py-4 rounded-xl bg-white text-blue-700 font-extrabold text-base shadow-lg hover:bg-slate-100 btn-3d">
             File a Complaint Now
           </button>
