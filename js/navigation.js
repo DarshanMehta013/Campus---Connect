@@ -170,6 +170,47 @@ function openDashboardView() {
   window.location.href = `roles.html?role=${encodeURIComponent(currentSession.role)}`;
 }
 
+function navigateToFileComplaint() {
+  if (typeof currentSession !== 'undefined' && currentSession && currentSession.role === 'student') {
+    if (window.location.pathname.includes('roles.html') || window.location.pathname.endsWith('/roles')) {
+      if (typeof openComplaintModal === 'function') {
+        openComplaintModal();
+      }
+    } else {
+      window.location.href = 'roles.html?role=student&action=file';
+    }
+  } else if (typeof currentSession !== 'undefined' && currentSession && currentSession.role) {
+    window.location.href = `roles.html?role=${encodeURIComponent(currentSession.role)}`;
+  } else {
+    window.location.href = 'login.html?role=student&action=file';
+  }
+}
+
+function triggerEmergencyReport() {
+  if (typeof currentSession !== 'undefined' && currentSession && currentSession.role === 'student') {
+    if (window.location.pathname.includes('roles.html') || window.location.pathname.includes('portal.html')) {
+      if (typeof openComplaintModal === 'function') {
+        openComplaintModal();
+        const p = document.getElementById('cPriority');
+        const t = document.getElementById('cTitle');
+        if (p) p.value = 'High';
+        if (t) t.value = 'Emergency Hazard Report: ';
+      }
+    } else {
+      window.location.href = 'roles.html?role=student&action=emergency';
+    }
+  } else {
+    if (typeof goToAuth === 'function') {
+      goToAuth('student');
+    } else {
+      window.location.href = 'login.html?role=student&action=emergency';
+    }
+    if (typeof toast === 'function') {
+      toast('Please log in as a student to submit an emergency report.', 'err');
+    }
+  }
+}
+
 function toggleMobileMenu() {
   const menu = document.getElementById('mobileMenuDrawer');
   if (menu) menu.classList.toggle('hidden');

@@ -93,25 +93,47 @@ function closeLightbox() {
 function openComplaintModal() {
   tmpBase64Image = null;
   tmpBase64Video = null;
-  document.getElementById('imgUploadPreview').classList.add('hidden');
-  document.getElementById('imgPlaceholderBtn').classList.remove('hidden');
-  document.getElementById('videoUploadPreview').classList.add('hidden');
-  document.getElementById('videoPlaceholderBtn').classList.remove('hidden');
+  const imgPreview = document.getElementById('imgUploadPreview');
+  if (imgPreview) imgPreview.classList.add('hidden');
+  const imgPlaceholder = document.getElementById('imgPlaceholderBtn');
+  if (imgPlaceholder) imgPlaceholder.classList.remove('hidden');
+  const imgTag = document.getElementById('imgPreviewTag');
+  if (imgTag) imgTag.src = '';
+
+  const videoPreview = document.getElementById('videoUploadPreview');
+  if (videoPreview) videoPreview.classList.add('hidden');
+  const videoPlaceholder = document.getElementById('videoPlaceholderBtn');
+  if (videoPlaceholder) videoPlaceholder.classList.remove('hidden');
+  const videoTag = document.getElementById('videoPreviewTag');
+  if (videoTag) videoTag.src = '';
   
-  document.getElementById('modalComplaint').classList.remove('hidden');
-  document.getElementById('priorityDetectAlert').classList.add('hidden');
+  const modal = document.getElementById('modalComplaint');
+  if (modal) modal.classList.remove('hidden');
+  const priorityAlert = document.getElementById('priorityDetectAlert');
+  if (priorityAlert) priorityAlert.classList.add('hidden');
 }
 
-function closeComplaintModal() { document.getElementById('modalComplaint').classList.add('hidden'); }
+function closeComplaintModal() {
+  const modal = document.getElementById('modalComplaint');
+  if (modal) modal.classList.add('hidden');
+}
 
 function submitComplaint(e) {
   e.preventDefault();
-  const title = document.getElementById('cTitle').value.trim();
-  const category = document.getElementById('cCategory').value;
-  const priority = document.getElementById('cPriority').value;
-  const location = document.getElementById('cLocation').value.trim();
-  const desc = document.getElementById('cDesc').value.trim();
+  const title = document.getElementById('cTitle')?.value.trim() || '';
+  const category = document.getElementById('cCategory')?.value || 'Computer Department';
+  const priority = document.getElementById('cPriority')?.value || 'Low';
+  const location = document.getElementById('cLocation')?.value.trim() || '';
+  const desc = document.getElementById('cDesc')?.value.trim() || '';
+
+  if (!title || !location || !desc) {
+    toast('Please fill in all required complaint fields.', 'err');
+    return;
+  }
+
   const ticketId = 'COMP-' + Math.floor(100 + Math.random() * 9000);
+  const reporterName = (typeof currentSession !== 'undefined' && currentSession && currentSession.name) ? currentSession.name : 'Kabir Mehta';
+  const reporterGr = (typeof currentSession !== 'undefined' && currentSession && currentSession.grNo) ? currentSession.grNo : '1001';
 
   const issueObj = {
     id: ticketId,
@@ -120,10 +142,19 @@ function submitComplaint(e) {
     description: desc,
     location,
     priority,
-    reportedBy: currentSession.name,
-    reportedByGr: currentSession.grNo,
+    reportedBy: reporterName,
+    reportedByGr: reporterGr,
     reportedAt: nowStr(),
-    status: 'Pending Admin Verification',
+    status: 'Complaint Submitted',
+    current_status: 'Complaint Submitted',
+    stage: 1,
+    admin_status: 'Pending',
+    technician_status: 'Pending',
+    technician_action: null,
+    work_status: 'Not Started',
+    faculty_status: 'Pending',
+    technician_completion_date: null,
+    faculty_verification_date: null,
     techId: null,
     techName: null,
     rejectionReason: '',
@@ -135,9 +166,12 @@ function submitComplaint(e) {
     qaVerified: false,
     qaFeedback: '',
     logs: [
-      { s: 'Complaint Filed', note: `Self Category: ${category} | Priority: ${priority}`, time: nowStr(), by: currentSession.name }
+      { s: 'Complaint Submitted', note: `Self Category: ${category} | Priority: ${priority}`, time: nowStr(), by: reporterName }
     ]
   };
+
+  if (!appState.complaints) appState.complaints = [];
+  if (!appState.notifs) appState.notifs = [];
 
   appState.complaints.unshift(issueObj);
   appState.notifs.unshift({
@@ -145,27 +179,70 @@ function submitComplaint(e) {
     forGr: null,
     forDept: null,
     forTech: null,
-    text: `Incoming verification required: ${ticketId} [${priority}] from ${currentSession.name}`,
+    text: `Incoming verification required: ${ticketId} [${priority}] from ${reporterName}`,
     time: nowStr(),
     read: false
   });
 
   persist();
   closeComplaintModal();
+
+  // Reset form inputs
+  const titleInput = document.getElementById('cTitle');
+  if (titleInput) titleInput.value = '';
+  const locInput = document.getElementById('cLocation');
+  if (locInput) locInput.value = '';
+  const descInput = document.getElementById('cDesc');
+  if (descInput) descInput.value = '';
+
+  tmpBase64Image = null;
+  tmpBase64Video = null;
+  const imgPreview = document.getElementById('imgUploadPreview');
+  if (imgPreview) imgPreview.classList.add('hidden');
+  const imgBtn = document.getElementById('imgPlaceholderBtn');
+  if (imgBtn) imgBtn.classList.remove('hidden');
+  const vidPreview = document.getElementById('videoUploadPreview');
+  if (vidPreview) vidPreview.classList.add('hidden');
+  const vidBtn = document.getElementById('videoPlaceholderBtn');
+  if (vidBtn) vidBtn.classList.remove('hidden');
+  const priorityAlert = document.getElementById('priorityDetectAlert');
+  if (priorityAlert) priorityAlert.classList.add('hidden');
+
   toast(`Complaint ${ticketId} registered & routed to Admin queue.`);
-  renderByRole();
+
+  if (typeof renderStudent === 'function' && typeof currentSession !== 'undefined' && currentSession && currentSession.role === 'student') {
+    renderStudent();
+  } else if (typeof renderByRole === 'function') {
+    renderByRole();
+  }
+  if (typeof renderLandingStats === 'function') {
+    renderLandingStats();
+  }
+  if (typeof renderPublicFeed === 'function') {
+    renderPublicFeed();
+  }
 }
 
 
 function triggerEmergencyReport() {
-  if (currentSession && currentSession.role === 'student') {
-    openComplaintModal();
-    const p = document.getElementById('cPriority');
-    const t = document.getElementById('cTitle');
-    if (p) p.value = 'High';
-    if (t) t.value = 'Emergency Hazard Report: ';
+  if (typeof currentSession !== 'undefined' && currentSession && currentSession.role === 'student') {
+    if (window.location.pathname.includes('roles.html') || window.location.pathname.includes('portal.html')) {
+      if (typeof openComplaintModal === 'function') {
+        openComplaintModal();
+        const p = document.getElementById('cPriority');
+        const t = document.getElementById('cTitle');
+        if (p) p.value = 'High';
+        if (t) t.value = 'Emergency Hazard Report: ';
+      }
+    } else {
+      window.location.href = 'roles.html?role=student&action=emergency';
+    }
   } else {
-    goToAuth('student');
+    if (typeof goToAuth === 'function') {
+      goToAuth('student');
+    } else {
+      window.location.href = 'login.html?role=student&action=emergency';
+    }
     toast('Please log in as a student to submit an emergency report.', 'err');
   }
 }

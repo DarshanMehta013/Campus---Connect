@@ -39,11 +39,18 @@ let initialSeedDatabase = {
       reportedBy: 'Kabir Mehta',
       reportedByGr: '1001',
       reportedAt: '16/07/2026 09:30 AM',
-      status: 'Awaiting Faculty Forwarding',
-      techId: null,
-      techName: null,
+      status: 'Approved by Admin',
+      current_status: 'Approved by Admin',
+      stage: 2,
+      admin_status: 'Approved',
+      technician_status: 'Pending',
+      technician_action: null,
+      work_status: 'Not Started',
+      faculty_status: 'Pending',
+      techId: 'TECH-01',
+      techName: 'Dilip Prasad',
+      deadline: '22/08/2026',
       rejectionReason: '',
-      deadline: '',
       image: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?q=80&w=600',
       video: '',
       proofImg: '',
@@ -51,8 +58,8 @@ let initialSeedDatabase = {
       qaVerified: false,
       qaFeedback: '',
       logs: [
-        { s: 'Complaint Filed', note: 'Submitted with raw photo evidence', time: '16/07/2026 09:30 AM', by: 'Kabir' },
-        { s: 'Admin Verified', note: 'Sent to Electrical Department Faculty', time: '16/07/2026 10:15 AM', by: 'System' }
+        { s: 'Complaint Submitted', note: 'Submitted with raw photo evidence', time: '16/07/2026 09:30 AM', by: 'Kabir Mehta' },
+        { s: 'Admin Verified', note: 'Approved by Admin and dispatched to Technician Dilip Prasad', time: '16/07/2026 10:15 AM', by: 'Admin Office' }
       ]
     },
     {
@@ -65,11 +72,20 @@ let initialSeedDatabase = {
       reportedBy: 'Ananya Iyer',
       reportedByGr: '1002',
       reportedAt: '15/07/2026 02:15 PM',
-      status: 'Perfectly Completed',
+      status: 'Completed',
+      current_status: 'Completed',
+      stage: 7,
+      admin_status: 'Approved',
+      technician_status: 'Completed',
+      technician_action: 'Accepted',
+      work_status: 'Completed',
+      faculty_status: 'Verified',
+      technician_completion_date: '16/07/2026 10:00 AM',
+      faculty_verification_date: '16/07/2026 11:30 AM',
       techId: 'TECH-01',
       techName: 'Dilip Prasad',
-      rejectionReason: '',
       deadline: '17/07/2026',
+      rejectionReason: '',
       image: 'https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?q=80&w=600',
       video: '',
       proofImg: 'https://images.unsplash.com/photo-1517254485319-68a189ddc2f1?q=80&w=600',
@@ -77,12 +93,13 @@ let initialSeedDatabase = {
       qaVerified: true,
       qaFeedback: 'Inspected classrooms, verified perfectly operational.',
       logs: [
-        { s: 'Complaint Filed', note: 'Reported', time: '15/07/2026 02:15 PM', by: 'Ananya' },
-        { s: 'Admin Verified', note: 'Dispatched to Electrical Department', time: '15/07/2026 02:30 PM', by: 'Admin' },
-        { s: 'Faculty Forwarded', note: 'Routed to Technician Dilip with deadline 17/07/2026', time: '15/07/2026 03:00 PM', by: 'Electrical Faculty' },
-        { s: 'Resolution Started', note: 'Accepted by Technician', time: '15/07/2026 03:30 PM', by: 'Dilip' },
-        { s: 'Resolution Proof Uploaded', note: 'Proof uploaded', time: '16/07/2026 10:00 AM', by: 'Dilip' },
-        { s: 'Faculty QA Approved', note: 'Perfectly Completed verified', time: '16/07/2026 11:30 AM', by: 'Faculty Office' }
+        { s: 'Complaint Submitted', note: 'Reported by Student', time: '15/07/2026 02:15 PM', by: 'Ananya Iyer' },
+        { s: 'Admin Verified', note: 'Approved by Admin and dispatched to Dilip Prasad', time: '15/07/2026 02:30 PM', by: 'Admin Office' },
+        { s: 'Technician Accepted', note: 'Accepted by Technician Dilip Prasad', time: '15/07/2026 03:30 PM', by: 'Dilip Prasad' },
+        { s: 'Work in Progress', note: 'Repair and electrical replacement in progress', time: '15/07/2026 04:00 PM', by: 'Dilip Prasad' },
+        { s: 'Technician Completed', note: 'Work finished, proof uploaded', time: '16/07/2026 10:00 AM', by: 'Dilip Prasad' },
+        { s: 'Faculty Verified', note: 'Audited and verified by Electrical Faculty', time: '16/07/2026 11:30 AM', by: 'Electrical Faculty' },
+        { s: 'Completed', note: 'Complaint fully completed and closed.', time: '16/07/2026 11:30 AM', by: 'System' }
       ]
     },
     {
@@ -95,11 +112,18 @@ let initialSeedDatabase = {
       reportedBy: 'Kabir Mehta',
       reportedByGr: '1001',
       reportedAt: '16/07/2026 11:00 AM',
-      status: 'Resolution Started',
+      status: 'Work in Progress',
+      current_status: 'Work in Progress',
+      stage: 4,
+      admin_status: 'Approved',
+      technician_status: 'Accepted',
+      technician_action: 'Accepted',
+      work_status: 'In Progress',
+      faculty_status: 'Pending',
       techId: 'TECH-03',
       techName: 'Ankit Sharma',
-      rejectionReason: '',
       deadline: '17/07/2026',
+      rejectionReason: '',
       image: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=600',
       video: '',
       proofImg: '',
@@ -107,9 +131,10 @@ let initialSeedDatabase = {
       qaVerified: false,
       qaFeedback: '',
       logs: [
-        { s: 'Complaint Filed', note: 'Auto High priority', time: '16/07/2026 11:00 AM', by: 'Kabir' },
-        { s: 'Admin Verified', note: 'Forwarded to CS Faculty', time: '16/07/2026 11:10 AM', by: 'Admin' },
-        { s: 'Resolution Started', note: 'Assigned to Ankit', time: '16/07/2026 11:30 AM', by: 'Ankit' }
+        { s: 'Complaint Submitted', note: 'Auto High priority', time: '16/07/2026 11:00 AM', by: 'Kabir Mehta' },
+        { s: 'Admin Verified', note: 'Approved by Admin and dispatched to Ankit Sharma', time: '16/07/2026 11:10 AM', by: 'Admin Office' },
+        { s: 'Technician Accepted', note: 'Accepted work order by Ankit Sharma', time: '16/07/2026 11:20 AM', by: 'Ankit Sharma' },
+        { s: 'Work in Progress', note: 'Switch diagnostics and patch cable replacement underway', time: '16/07/2026 11:30 AM', by: 'Ankit Sharma' }
       ]
     },
     {
@@ -122,20 +147,31 @@ let initialSeedDatabase = {
       reportedBy: 'Kabir Mehta',
       reportedByGr: '1001',
       reportedAt: '16/07/2026 01:20 PM',
-      status: 'Awaiting Faculty Forwarding',
-      techId: null,
-      techName: null,
+      status: 'Work Completed by Technician',
+      current_status: 'Work Completed by Technician',
+      stage: 5,
+      admin_status: 'Approved',
+      technician_status: 'Completed',
+      technician_action: 'Accepted',
+      work_status: 'Completed',
+      faculty_status: 'Pending',
+      technician_completion_date: '16/07/2026 03:00 PM',
+      techId: 'TECH-03',
+      techName: 'Ankit Sharma',
+      deadline: '18/07/2026',
       rejectionReason: '',
-      deadline: '',
       image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=600',
       video: '',
-      proofImg: '',
-      remark: '',
+      proofImg: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=600',
+      remark: 'Replaced faulty HDMI cable & re-calibrated projector output.',
       qaVerified: false,
       qaFeedback: '',
       logs: [
-        { s: 'Complaint Filed', note: 'Reported by Student', time: '16/07/2026 01:20 PM', by: 'Kabir' },
-        { s: 'Admin Verified', note: 'Routed to CS Dept', time: '16/07/2026 01:45 PM', by: 'System' }
+        { s: 'Complaint Submitted', note: 'Reported by Student', time: '16/07/2026 01:20 PM', by: 'Kabir Mehta' },
+        { s: 'Admin Verified', note: 'Approved and dispatched to Ankit Sharma', time: '16/07/2026 01:45 PM', by: 'Admin Office' },
+        { s: 'Technician Accepted', note: 'Accepted work order by Ankit Sharma', time: '16/07/2026 02:00 PM', by: 'Ankit Sharma' },
+        { s: 'Work in Progress', note: 'Display port recabling in progress', time: '16/07/2026 02:15 PM', by: 'Ankit Sharma' },
+        { s: 'Technician Completed', note: 'Completed and submitted for Faculty Verification', time: '16/07/2026 03:00 PM', by: 'Ankit Sharma' }
       ]
     },
     {
@@ -148,11 +184,18 @@ let initialSeedDatabase = {
       reportedBy: 'Rohan Verma',
       reportedByGr: '1003',
       reportedAt: '16/07/2026 10:00 AM',
-      status: 'Assigned to Technician',
+      status: 'Approved by Admin',
+      current_status: 'Approved by Admin',
+      stage: 2,
+      admin_status: 'Approved',
+      technician_status: 'Pending',
+      technician_action: null,
+      work_status: 'Not Started',
+      faculty_status: 'Pending',
       techId: 'TECH-02',
       techName: 'Jagdish Panchal',
-      rejectionReason: '',
       deadline: '18/07/2026',
+      rejectionReason: '',
       image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=600',
       video: '',
       proofImg: '',
@@ -160,60 +203,8 @@ let initialSeedDatabase = {
       qaVerified: false,
       qaFeedback: '',
       logs: [
-        { s: 'Complaint Filed', note: 'Safety risk identified', time: '16/07/2026 10:00 AM', by: 'Rohan' },
-        { s: 'Admin Verified', note: 'Dispatched to Mech Dept', time: '16/07/2026 10:30 AM', by: 'Admin' }
-      ]
-    },
-    {
-      id: 'COMP-206',
-      title: 'Drafting Tables Clamps & Vice Alignment Fix',
-      category: 'Mechanical Department',
-      description: 'Three drafting tables in CAD Drawing Hall have loose clamps and unaligned tilt levers.',
-      location: 'Mech Drawing Hall 1',
-      priority: 'Low',
-      reportedBy: 'Rohan Verma',
-      reportedByGr: '1003',
-      reportedAt: '14/07/2026 03:00 PM',
-      status: 'Perfectly Completed',
-      techId: 'TECH-02',
-      techName: 'Jagdish Panchal',
-      rejectionReason: '',
-      deadline: '16/07/2026',
-      image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=600',
-      video: '',
-      proofImg: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=600',
-      remark: 'Tightened Vice clamps and replaced tilt lever bolts.',
-      qaVerified: true,
-      qaFeedback: 'Inspected drawing tables, verified all secure.',
-      logs: [
-        { s: 'Complaint Filed', note: 'Reported', time: '14/07/2026 03:00 PM', by: 'Rohan' },
-        { s: 'Faculty QA Approved', note: 'Verified by Mech Faculty', time: '16/07/2026 04:00 PM', by: 'Mech Faculty' }
-      ]
-    },
-    {
-      id: 'COMP-207',
-      title: 'Overhead Water Pipe Seepage & Damp Ceiling',
-      category: 'Civil Department',
-      description: 'Water leaking from overhead supply pipe causing plaster flaking near concrete testing area.',
-      location: 'Civil Block Basement Lab',
-      priority: 'High',
-      reportedBy: 'Priya Sharma',
-      reportedByGr: '1004',
-      reportedAt: '16/07/2026 08:45 AM',
-      status: 'Resolution Started',
-      techId: 'TECH-04',
-      techName: 'Madan Lal',
-      rejectionReason: '',
-      deadline: '17/07/2026',
-      image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=600',
-      video: '',
-      proofImg: '',
-      remark: '',
-      qaVerified: false,
-      qaFeedback: '',
-      logs: [
-        { s: 'Complaint Filed', note: 'Water seepage flagged', time: '16/07/2026 08:45 AM', by: 'Priya' },
-        { s: 'Resolution Started', note: 'Pipe sealing under process', time: '16/07/2026 11:00 AM', by: 'Madan' }
+        { s: 'Complaint Submitted', note: 'Safety risk identified', time: '16/07/2026 10:00 AM', by: 'Rohan Verma' },
+        { s: 'Admin Verified', note: 'Approved by Admin and dispatched to Jagdish Panchal', time: '16/07/2026 10:30 AM', by: 'Admin Office' }
       ]
     },
     {
@@ -226,11 +217,18 @@ let initialSeedDatabase = {
       reportedBy: 'Priya Sharma',
       reportedByGr: '1004',
       reportedAt: '16/07/2026 02:00 PM',
-      status: 'Pending Admin Verification',
+      status: 'Complaint Submitted',
+      current_status: 'Complaint Submitted',
+      stage: 1,
+      admin_status: 'Pending',
+      technician_status: 'Pending',
+      technician_action: null,
+      work_status: 'Not Started',
+      faculty_status: 'Pending',
       techId: null,
       techName: null,
-      rejectionReason: '',
       deadline: '',
+      rejectionReason: '',
       image: 'https://images.unsplash.com/photo-1590069261209-f8e9b8642343?q=80&w=600',
       video: '',
       proofImg: '',
@@ -238,23 +236,208 @@ let initialSeedDatabase = {
       qaVerified: false,
       qaFeedback: '',
       logs: [
-        { s: 'Complaint Filed', note: 'Submitted for verification', time: '16/07/2026 02:00 PM', by: 'Priya' }
+        { s: 'Complaint Submitted', note: 'Submitted for Admin Verification', time: '16/07/2026 02:00 PM', by: 'Priya Sharma' }
       ]
     }
   ],
   notifs: [
-    { id: 'N1', forGr: '1001', forDept: null, forTech: null, text: 'Admin routed COMP-201 to Electrical Faculty', time: '16/07/2026 10:15 AM', read: false }
+    { id: 'N1', forGr: '1001', forDept: null, forTech: null, text: 'Admin verified and dispatched COMP-201 to Dilip Prasad', time: '16/07/2026 10:15 AM', read: false }
   ]
 };
 
+// Stage & Progress Helper
+function getComplaintStageInfo(c) {
+  const status = c.status || c.current_status || 'Complaint Submitted';
+  
+  if (status === 'Rejected by Admin' || c.admin_status === 'Rejected') {
+    return {
+      stage: 0,
+      percent: 100,
+      isRejected: true,
+      rejectedBy: 'Admin',
+      statusText: 'Rejected by Admin',
+      badgeClass: 'bg-red-100 text-red-800 border-red-200 dark:bg-red-950/40 dark:text-red-300 dark:border-red-800/40'
+    };
+  }
+  
+  if (status === 'Rejected by Technician' || c.technician_status === 'Rejected') {
+    return {
+      stage: 0,
+      percent: 100,
+      isRejected: true,
+      rejectedBy: 'Technician',
+      statusText: 'Rejected by Technician',
+      badgeClass: 'bg-red-100 text-red-800 border-red-200 dark:bg-red-950/40 dark:text-red-300 dark:border-red-800/40'
+    };
+  }
+
+  let stage = 1;
+  let statusText = 'Complaint Submitted';
+  let badgeClass = 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800/40';
+
+  if (status === 'Complaint Submitted' || status === 'Pending Admin Verification') {
+    stage = 1;
+    statusText = 'Complaint Submitted';
+    badgeClass = 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800/40';
+  } else if (status === 'Approved by Admin' || status === 'Awaiting Faculty Forwarding' || status === 'Assigned to Technician') {
+    stage = 2;
+    statusText = 'Approved by Admin';
+    badgeClass = 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800/40';
+  } else if (status === 'Accepted by Technician') {
+    stage = 3;
+    statusText = 'Accepted by Technician';
+    badgeClass = 'bg-indigo-100 text-indigo-800 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-300 dark:border-indigo-800/40';
+  } else if (status === 'Work in Progress' || status === 'Resolution Started') {
+    stage = 4;
+    statusText = 'Work in Progress';
+    badgeClass = 'bg-purple-100 text-purple-800 border-purple-200 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-800/40';
+  } else if (status === 'Work Completed by Technician' || status === 'Pending Faculty Verification') {
+    stage = 5;
+    statusText = 'Work Completed by Technician';
+    badgeClass = 'bg-teal-100 text-teal-800 border-teal-200 dark:bg-teal-950/40 dark:text-teal-300 dark:border-teal-800/40';
+  } else if (status === 'Faculty Verified') {
+    stage = 6;
+    statusText = 'Faculty Verified';
+    badgeClass = 'bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800/40';
+  } else if (status === 'Completed' || status === 'Completed ✅' || status === 'Perfectly Completed') {
+    stage = 7;
+    statusText = 'Completed ✅';
+    badgeClass = 'bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800/40';
+  }
+
+  const percentMap = {
+    1: 14,
+    2: 28,
+    3: 43,
+    4: 57,
+    5: 71,
+    6: 86,
+    7: 100
+  };
+
+  return {
+    stage,
+    percent: percentMap[stage] || 14,
+    isRejected: false,
+    statusText,
+    badgeClass
+  };
+}
+
+function normalizeComplaints(complaints) {
+  if (!Array.isArray(complaints)) return [];
+  return complaints.map(c => {
+    let status = c.status || c.current_status || 'Complaint Submitted';
+    if (status === 'Pending Admin Verification') status = 'Complaint Submitted';
+    if (status === 'Awaiting Faculty Forwarding') status = 'Approved by Admin';
+    if (status === 'Assigned to Technician') status = 'Approved by Admin';
+    if (status === 'Resolution Started') status = 'Work in Progress';
+    if (status === 'Pending Faculty Verification') status = 'Work Completed by Technician';
+    if (status === 'Perfectly Completed') status = 'Completed';
+
+    let stage = c.stage;
+    if (!stage) {
+      if (status === 'Complaint Submitted') stage = 1;
+      else if (status === 'Approved by Admin') stage = 2;
+      else if (status === 'Accepted by Technician') stage = 3;
+      else if (status === 'Work in Progress') stage = 4;
+      else if (status === 'Work Completed by Technician') stage = 5;
+      else if (status === 'Faculty Verified') stage = 6;
+      else if (status === 'Completed' || status === 'Completed ✅') stage = 7;
+      else if (status.includes('Rejected')) stage = 0;
+      else stage = 1;
+    }
+
+    return {
+      id: c.id,
+      title: c.title || 'Untitled Complaint',
+      category: c.category || c.dept || 'Computer Department',
+      description: c.description || c.desc || '',
+      location: c.location || 'Campus',
+      priority: c.priority || 'Low',
+      reportedBy: c.reportedBy || 'Student',
+      reportedByGr: c.reportedByGr || '1001',
+      reportedAt: c.reportedAt || nowStr(),
+      status: status,
+      current_status: status,
+      stage: stage,
+      admin_status: c.admin_status || (stage >= 2 ? 'Approved' : (status === 'Rejected by Admin' ? 'Rejected' : 'Pending')),
+      technician_status: c.technician_status || (stage >= 5 ? 'Completed' : (stage >= 3 ? 'Accepted' : (status === 'Rejected by Technician' ? 'Rejected' : 'Pending'))),
+      technician_action: c.technician_action || (stage >= 3 ? 'Accepted' : (status === 'Rejected by Technician' ? 'Rejected' : null)),
+      work_status: c.work_status || (stage >= 5 ? 'Completed' : (stage >= 4 ? 'In Progress' : (status === 'Rejected by Technician' ? 'Cancelled' : 'Not Started'))),
+      faculty_status: c.faculty_status || (stage >= 6 ? 'Verified' : 'Pending'),
+      technician_completion_date: c.technician_completion_date || (stage >= 5 ? c.reportedAt : null),
+      faculty_verification_date: c.faculty_verification_date || (stage >= 6 ? c.reportedAt : null),
+      techId: c.techId || null,
+      techName: c.techName || null,
+      deadline: c.deadline || '',
+      rejectionReason: c.rejectionReason || '',
+      image: c.image || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=600',
+      video: c.video || '',
+      proofImg: c.proofImg || '',
+      remark: c.remark || '',
+      qaVerified: c.qaVerified || (stage >= 6),
+      qaFeedback: c.qaFeedback || '',
+      logs: Array.isArray(c.logs) && c.logs.length ? c.logs : [
+        { s: 'Complaint Submitted', note: 'Submitted with details', time: c.reportedAt || nowStr(), by: c.reportedBy || 'Student' }
+      ]
+    };
+  });
+}
+
 let appState = JSON.parse(localStorage.getItem(REPO_KEY)) || initialSeedDatabase;
+if (appState && appState.complaints) {
+  appState.complaints = normalizeComplaints(appState.complaints);
+}
 function persist() { localStorage.setItem(REPO_KEY, JSON.stringify(appState)); }
 
 let currentSession = null;
+try {
+  const savedSession = localStorage.getItem('campus_session');
+  if (savedSession) {
+    currentSession = JSON.parse(savedSession);
+    if (currentSession && currentSession.expiresAt && currentSession.expiresAt <= Date.now()) {
+      currentSession = null;
+      localStorage.removeItem('campus_session');
+    }
+  }
+} catch (e) {
+  currentSession = null;
+}
+
 let activeAdminViewTab = 'dash';
 let tmpBase64ProfileAvatar = null;
 let qaApprovalState = true;
 let sessionWatcherTimer = null;
+
+function logout(isAutoExpired = false) {
+  currentSession = null;
+  localStorage.removeItem('campus_session');
+  if (sessionWatcherTimer) clearInterval(sessionWatcherTimer);
+
+  const timerBadge = document.getElementById('sessionTimerBadge');
+  if (timerBadge) timerBadge.classList.add('hidden');
+  const userChip = document.getElementById('userChip');
+  if (userChip) {
+    userChip.classList.add('hidden');
+    userChip.classList.remove('flex');
+  }
+  const notifWrap = document.getElementById('notifWrap');
+  if (notifWrap) notifWrap.classList.add('hidden');
+  const navAuthSlot = document.getElementById('navRightAuthSlot');
+  if (navAuthSlot) navAuthSlot.classList.remove('hidden');
+
+  if (typeof goHome === 'function') {
+    goHome();
+  } else {
+    window.location.href = 'index.html';
+  }
+  if (isAutoExpired === true) {
+    toast('Your session has expired (15-Min SLA). Please sign in again.', 'err');
+  } else {
+    toast('Logged out successfully');
+  }
+}
 
 
 /* ---------- SESSION WATCHDOG ---------- */
@@ -378,7 +561,8 @@ function saveProfile(e) {
   localStorage.setItem('campus_session', JSON.stringify(currentSession));
   closeProfileModal();
   toast('Profile updated successfully!');
-  renderByRole();
+  if (typeof syncNavProfile === 'function') syncNavProfile();
+  if (typeof renderByRole === 'function') renderByRole();
 }
 
 
